@@ -31,7 +31,7 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 
 # Desktop manager
-#sudo apt-get install ubuntu-desktop
+sudo apt-get install ubuntu-desktop
 
 # default tools
 sudo apt-get -y install tmux
