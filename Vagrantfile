@@ -7,15 +7,12 @@ file_to_disk = File.realpath( "." ).to_s + "/disk.vdi"
 Vagrant.configure("2") do |config|
   config.vm.define "ctf-ubuntu" do |ubuntu|
     
-    #ubuntu.vm.box = "ubuntu/xenial64"
-    ubuntu.vm.box = "xenial-server-cloudimg-amd64" # Basename of the url below
-    ubuntu.vm.box_url = "https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-vagrant.box"
-    config.ssh.username = "ubuntu"
-    config.ssh.forward_agent = true 
+    ubuntu.vm.box = "../ubuntu/box/virtualbox/invalid-ctf-0.1.0.box"
     ubuntu.vm.hostname = "invalid-ctf"
-    ubuntu.vm.provision :shell, :path => "add_new_disk.sh", :privileged => false
-    #ubuntu.vm.provision :shell, :path => "vagrant_setup.sh", :privileged => false
-    ubuntu.ssh.forward_agent = true
+    ubuntu.ssh.username = 'invalid'
+    ubuntu.ssh.password = 'invalid'
+    ubuntu.ssh.forward_agent = true 
+    ubuntu.vm.provision :shell, :path => "vagrant_setup.sh", :privileged => false
 
 
     ubuntu.vm.synced_folder "host-share", "/media/host-share"
@@ -96,4 +93,28 @@ Vagrant.configure("2") do |config|
     end
   end
   
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "../ubuntu/box/virtualbox/invalid-ctf-0.1.0.box"
+  config.vm.hostname = "invalid-ctf"
+  config.vm.provision :shell, :path => "vagrant_setup.sh", :privileged => false
+  config.ssh.username = 'invalid'
+  config.ssh.password = 'invalid'
+  config.ssh.forward_agent = true
+
+
+  config.vm.synced_folder "host-share", "/home/ubuntu/ctf-share"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "4096"]
+    vb.customize ["modifyvm", :id, "--cpus", "2"]
+    vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+    vb.customize ["modifyvm", :id, "--vram", "256"]
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
+    vb.customize ["modifyvm", :id, "--usb", "on"]    
+    vb.gui = true
+  end
 end

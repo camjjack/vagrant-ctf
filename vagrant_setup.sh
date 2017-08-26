@@ -31,7 +31,7 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 
 # Desktop manager
-sudo apt-get -y install ubuntu-desktop
+sudo apt-get install ubuntu-desktop
 
 # default tools
 sudo apt-get -y install tmux
@@ -50,12 +50,12 @@ pip install --upgrade pip
 #sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 10
 
 # Virtualbox tools
-#sudo apt-get -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
-#sudo VBoxClient --clipboard
-#sudo VBoxClient --draganddrop
-#sudo VBoxClient --display
-#sudo VBoxClient --checkhostversion
-#sudo VBoxClient --seamless
+sudo apt-get -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+sudo VBoxClient --clipboard
+sudo VBoxClient --draganddrop
+sudo VBoxClient --display
+sudo VBoxClient --checkhostversion
+sudo VBoxClient --seamless
 
 # Install pwntools
 sudo apt-get -y install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential
