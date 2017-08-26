@@ -1,10 +1,10 @@
 #!/bin/bash
-USER=invalid
+#USER=invalid
 
 # Create our new user, set password to username
-sudo adduser --disabled-password --gecos "" $USER
-echo $USER:$USER | sudo chpasswd
-sudo usermod -aG sudo $USER
+#sudo adduser --disabled-password --gecos "" $USER
+#echo $USER:$USER | sudo chpasswd
+#sudo usermod -aG sudo $USER
 
 git_update() {
     if [ -d $1 ]; then
@@ -21,17 +21,17 @@ git_update() {
 }
 
 # Switch to the new user
-sudo -Ssu $USER
+#sudo -Ssu $USER
 # and sudo at least once to allow scripts below to sudo without password prompt
-echo $USER | sudo -S ls
-cd /home/$USER
+#echo $USER | sudo -S ls
+#cd /home/$USER
 
 # Updates
 sudo apt-get -y update
 sudo apt-get -y upgrade
 
 # Desktop manager
-sudo apt-get install ubuntu-desktop
+sudo apt-get -y install ubuntu-desktop
 
 # default tools
 sudo apt-get -y install tmux
@@ -50,12 +50,12 @@ pip install --upgrade pip
 #sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 10
 
 # Virtualbox tools
-sudo apt-get -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
-sudo VBoxClient --clipboard
-sudo VBoxClient --draganddrop
-sudo VBoxClient --display
-sudo VBoxClient --checkhostversion
-sudo VBoxClient --seamless
+#sudo apt-get -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+#sudo VBoxClient --clipboard
+#sudo VBoxClient --draganddrop
+#sudo VBoxClient --display
+#sudo VBoxClient --checkhostversion
+#sudo VBoxClient --seamless
 
 # Install pwntools
 sudo apt-get -y install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential
@@ -72,15 +72,16 @@ git_update radare2 https://github.com/radare/radare2 ./sys/install.sh
 
 # Install angr
 sudo apt-get -y install python-dev libffi-dev build-essential virtualenvwrapper
+pip install 
 mkdir angr
 pushd angr
 mkvirtualenv angr && pip install angr
 popd
 
 # Make a bin dir and add to PATH
-mkdir -p /home/$USER/tools/bin
-echo 'PATH=$PATH:/home/$USER/tools/bin/' > /home/$USER/.bashrc
-source /home/$USER/.bashrc
+mkdir -p ~/tools/bin
+echo 'PATH=$PATH:~/tools/bin/' > ~/.bashrc
+source ~/.bashrc
 
 # socat ctf helper
 sudo apt-get -y install socat
@@ -123,7 +124,7 @@ sudo ln -sf /usr/arm-linux-gnueabihf /etc/qemu-binfmt/arm
 sudo apt-get -y install chromium-browser
 
 # pia
-if [ -d "/home/$USER/.pia_manager" ]; then
+if [ -d "~/.pia_manager" ]; then
     pushd Downloads
     wget https://installers.privateinternetaccess.com/download/pia-v68-installer-linux.tar.gz
     tar -xzf pia-v68-installer-linux.tar.gz
@@ -131,11 +132,24 @@ if [ -d "/home/$USER/.pia_manager" ]; then
     ./pia-v68-installer-linux.sh
     popd
     popd
-    echo '{"first_run":false,"region":"us1","proto":"udp","rport":"auto","lport":"","symmetric_cipher":"aes-256-cbc","symmetric_auth":"sha256","handshake_enc":"rsa4096","portforward":false,"killswitch":false,"dnsleak":false,"ipv6leak":true,"mssfix":false,"run_on_startup":true,"connect_on_startup":true,"show_popup_notifications":true,"user":"","pass":"","mace":false,"lang":"en-US"}' > /home/$USER/.pia_manager/data/settings.json
+    if [ -d "/media/host-share/pia-pass.txt" ]; then
+        echo '{"first_run":false,"region":"us1","proto":"udp","rport":"auto","lport":"","symmetric_cipher":"aes-256-cbc","symmetric_auth":"sha256","handshake_enc":"rsa4096","portforward":false,"killswitch":false,"dnsleak":false,"ipv6leak":true,"mssfix":false,"run_on_startup":true,"connect_on_startup":true,"show_popup_notifications":true,"mace":false,"lang":"en-US"' > ~/.pia_manager/data/settings.json
+        cat /media/host-share/pia-pass.txt >> ~/.pia_manager/data/settings.json
+        echo '}' >> ~/.pia_manager/data/settings.json
+    else
+        echo '{"first_run":false,"region":"us1","proto":"udp","rport":"auto","lport":"","symmetric_cipher":"aes-256-cbc","symmetric_auth":"sha256","handshake_enc":"rsa4096","portforward":false,"killswitch":false,"dnsleak":false,"ipv6leak":true,"mssfix":false,"run_on_startup":true,"connect_on_startup":true,"show_popup_notifications":true,"user":"","pass":"","mace":false,"lang":"en-US"}' > ~/.pia_manager/data/settings.json
+    fi
 fi
 
 # tor
 sudo apt-get -y install tor 
+
+#dropbox
+pushd Downloads
+wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
+sudo dpkg -i dropbox_2015.10.28_amd64.deb
+popd
+
 
 # Haven't worked out how to do this just yet
 #pushd Downloads
@@ -148,14 +162,14 @@ sudo apt-get -y install tor
 
 # Powerline
 sudo apt-get -y install powerline fonts-powerline python3-powerline
-if ! grep "powerline.sh" /home/$USER/.bashrc > /dev/null
+if ! grep "powerline.sh" ~/.bashrc > /dev/null
 then
-    echo 'source /usr/share/powerline/bindings/bash/powerline.sh' >> /home/$USER/.bashrc
+    echo 'source /usr/share/powerline/bindings/bash/powerline.sh' >> ~/.bashrc
 fi
 
-if ! grep "Powerline" /home/$USER/.vimrc > /dev/null
+if ! grep "Powerline" ~/.vimrc > /dev/null
 then
-    tee -a /home/$USER//.vimrc << EOF
+    tee -a ~/.vimrc << EOF
 " Powerline
 python3 from powerline.vim import setup as powerline_setup
 python3 powerline_setup()
@@ -163,9 +177,9 @@ python3 del powerline_setup
 EOF
 fi
 
-if ! grep "Powerline" /home/$USER/.tmux.conf > /dev/null
+if ! grep "Powerline" ~/.tmux.conf > /dev/null
 then
-    tee -a /home/$USER/.tmux.conf << EOF
+    tee -a ~/.tmux.conf << EOF
 # Powerline
 source /usr/share/powerline/bindings/tmux/powerline.conf
 set-option -g default-terminal "screen-256color"
@@ -179,4 +193,8 @@ sudo sh -c 'echo "deb [arch=amd64] http://packages.microsoft.com/repos/vscode st
 sudo apt-get -y update
 sudo apt-get -y install code
 
+# wireshark
+sudo apt-get -y wireshark
+
+# todo, 010 editor
 # todo, git clone my config repo.
