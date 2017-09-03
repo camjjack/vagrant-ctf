@@ -1,10 +1,4 @@
 #!/bin/bash
-#USER=invalid
-
-# Create our new user, set password to username
-#sudo adduser --disabled-password --gecos "" $USER
-#echo $USER:$USER | sudo chpasswd
-#sudo usermod -aG sudo $USER
 
 git_update() {
     if [ -d $1 ]; then
@@ -20,15 +14,17 @@ git_update() {
     popd
 }
 
-# Switch to the new user
-#sudo -Ssu $USER
-# and sudo at least once to allow scripts below to sudo without password prompt
-#echo $USER | sudo -S ls
-#cd /home/$USER
+#locale fix up
+sudo locale-gen
+sudo localectl set-x11-keymap us
+sudo localectl set-locale LANG="en_US.UTF-8"
+#sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
 # Updates
 sudo apt-get -y update
-sudo apt-get -y upgrade
+sudo DEBIAN_FRONTEND=noninteractive apt-get -o "Dpkg::Options::=--force-confold" upgrade -y
+
+exit 1
 
 # Desktop manager
 sudo apt-get install ubuntu-desktop
@@ -44,11 +40,6 @@ sudo apt-get -y install git
 sudo pip install --upgrade pip
 pip install --upgrade pip
 
-# default to python2
-#sudo apt-get -y install python2.7
-#sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-#sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 10
-
 # Virtualbox tools
 sudo apt-get -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
 sudo VBoxClient --clipboard
@@ -61,8 +52,9 @@ sudo VBoxClient --seamless
 sudo apt-get -y install python2.7 python-pip python-dev git libssl-dev libffi-dev build-essential
 sudo pip install --upgrade pwntools
 
+cd
 mkdir -p tools
-cd tools
+pushd tools
 
 # Install pwndbg
 git_update pwndbg https://github.com/zachriggle/pwndbg ./setup.sh
@@ -71,25 +63,32 @@ git_update pwndbg https://github.com/zachriggle/pwndbg ./setup.sh
 git_update radare2 https://github.com/radare/radare2 ./sys/install.sh
 
 # Install angr
-sudo apt-get -y install python-dev libffi-dev build-essential virtualenvwrapper
-pip install 
-mkdir angr
-pushd angr
-mkvirtualenv angr && pip install angr
-popd
+if workon angr; then
+    pip install --upgrade angr
+else
+    sudo apt-get -y install python-dev libffi-dev build-essential virtualenvwrapper
+    pip install pip
+    mkvirtualenv angr && pip install angr
+fi
 
 # Make a bin dir and add to PATH
-mkdir -p ~/tools/bin
-echo 'PATH=$PATH:~/tools/bin/' > ~/.bashrc
-source ~/.bashrc
+if [ ! -d "/home/$USER/tools/bin" ]; then
+    mkdir -p ~/tools/bin
+    echo 'PATH=$PATH:~/tools/bin/' >> ~/.bashrc
+    source ~/.bashrc
+fi
 
 # socat ctf helper
-sudo apt-get -y install socat
+if ! which socat; then
+    sudo apt-get -y install socat
+fi
 git_update ctfrun https://github.com/camjjack/ctfrun.git   
-mkdir -p bin
-pushd bin
-ln -sf ../ctfrun/ctfrun .
-popd
+
+if ! which ctfrun; then
+    pushd bin
+    ln -sf ../ctfrun/ctfrun .
+    popd
+fi
 
 # unicorn
 pip install --upgrade unicorn
@@ -124,7 +123,8 @@ sudo ln -sf /usr/arm-linux-gnueabihf /etc/qemu-binfmt/arm
 sudo apt-get -y install chromium-browser
 
 # pia
-if [ -d "~/.pia_manager" ]; then
+if [ ! -d "/home/$USER/.pia_manager" ]; then
+    cd
     pushd Downloads
     wget https://installers.privateinternetaccess.com/download/pia-v68-installer-linux.tar.gz
     tar -xzf pia-v68-installer-linux.tar.gz
@@ -132,7 +132,7 @@ if [ -d "~/.pia_manager" ]; then
     ./pia-v68-installer-linux.sh
     popd
     popd
-    if [ -d "/media/host-share/pia-pass.txt" ]; then
+    if [ -e "/media/host-share/pia-pass.txt" ]; then
         echo '{"first_run":false,"region":"us1","proto":"udp","rport":"auto","lport":"","symmetric_cipher":"aes-256-cbc","symmetric_auth":"sha256","handshake_enc":"rsa4096","portforward":false,"killswitch":false,"dnsleak":false,"ipv6leak":true,"mssfix":false,"run_on_startup":true,"connect_on_startup":true,"show_popup_notifications":true,"mace":false,"lang":"en-US"' > ~/.pia_manager/data/settings.json
         cat /media/host-share/pia-pass.txt >> ~/.pia_manager/data/settings.json
         echo '}' >> ~/.pia_manager/data/settings.json
@@ -144,11 +144,28 @@ fi
 # tor
 sudo apt-get -y install tor 
 
+#lastpass
+if [ ! -d "/home/$USER/Downloads/lplinux" ]; then
+    cd
+    pushd Downloads
+    wget https://lastpass.com/lplinux.tar.bz2
+    tar xjvf lplinux.tar.bz2
+    pushd lplinux && ./install_lastpass.sh
+    popd
+    popd
+fi
+
 #dropbox
-pushd Downloads
-wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
-sudo dpkg -i dropbox_2015.10.28_amd64.deb
-popd
+
+if ! which dropbox; then
+    cd
+    pushd Downloads
+    wget https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
+
+    sudo DEBIAN_FRONTEND=noninteractive dpkg -i --force-confold dropbox_2015.10.28_amd64.deb
+    rm dropbox_2015.10.28_amd64.deb
+    popd
+fi
 
 
 # Haven't worked out how to do this just yet
@@ -161,6 +178,7 @@ popd
 # nicities
 
 # Powerline
+sudo apt --fix-broken -y install
 sudo apt-get -y install powerline fonts-powerline python3-powerline
 if ! grep "powerline.sh" ~/.bashrc > /dev/null
 then
@@ -187,14 +205,38 @@ EOF
 fi
 
 # vs code
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-sudo sh -c 'echo "deb [arch=amd64] http://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-sudo apt-get -y update
-sudo apt-get -y install code
+if ! which code; then
+    curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+    sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+    sudo sh -c 'echo "deb [arch=amd64] http://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+    sudo apt-get -y update
+    sudo apt-get -y install code
+fi
+
+# vs code extensions
+# wont work. fix due in august release
+#code --install-extension ms-vscode.cpptools
+#code --install-extension donjayamanne.python
+#code --install-extension robertohuertasm.vscode-icons
+#code --install-extension donjayamanne.githistory
+#code --install-extension PeterJausovec.vscode-docker
 
 # wireshark
-sudo apt-get -y wireshark
+sudo DEBIAN_FRONTEND=noninteractive apt-get -o "Dpkg::Options::=--force-confold" install -y wireshark
+
+# binary ninja
+if [ -e "/media/host-share/BinaryNinja-personal.zip" ]; then
+    if [ ! -d "/home/$USER/tools/binaryninja" ]; then
+        cd
+        pushd tools
+        unzip /media/host-share/BinaryNinja-personal.zip
+        pushd binaryninja
+        cp /media/host-share/license.dat .
+        ./linux-setup.sh
+        popd
+        popd
+    fi
+fi
 
 # todo, 010 editor
 # todo, git clone my config repo.
