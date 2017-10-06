@@ -15,16 +15,21 @@ git_update() {
 }
 
 #locale fix up
+sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 sudo locale-gen
 sudo localectl set-x11-keymap us
 sudo localectl set-locale LANG="en_US.UTF-8"
-#sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 
 # Updates
 sudo apt-get -y update
 sudo DEBIAN_FRONTEND=noninteractive apt-get -o "Dpkg::Options::=--force-confold" upgrade -y
 
-exit 1
+# multilib
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386
+
+sudo apt-get -y install pidgin
 
 # Desktop manager
 sudo apt-get install ubuntu-desktop
@@ -237,6 +242,13 @@ if [ -e "/media/host-share/BinaryNinja-personal.zip" ]; then
         popd
     fi
 fi
+
+# pylint for vscode
+sudo pip install pylint
+
+# one_gadget
+sudo apt-get -y install ruby
+suby gem install one_gadget
 
 # todo, 010 editor
 # todo, git clone my config repo.
