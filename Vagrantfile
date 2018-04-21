@@ -7,12 +7,17 @@ file_to_disk = File.realpath( "." ).to_s + "/disk.vdi"
 Vagrant.configure("2") do |config|
   config.vm.define "ctf-ubuntu" do |ubuntu|
     
-    ubuntu.vm.box = "../ubuntu/box/virtualbox/invalid-ctf-0.1.0.box"
+    ubuntu.vm.box = "../hyper-v-packer-templates/dist/virtualbox-ubuntu-xenial-enhanced.box"
     ubuntu.vm.hostname = "invalid-ctf"
-    ubuntu.ssh.username = 'invalid'
-    ubuntu.ssh.password = 'invalid'
+    ubuntu.ssh.username = 'vagrant'
+    ubuntu.ssh.password = 'vagrant'
     ubuntu.ssh.forward_agent = true 
-    ubuntu.vm.provision :shell, :path => "vagrant_setup.sh", :privileged => false
+    #ubuntu.vm.provision :shell, :path => "vagrant_setup.sh", :privileged => false
+    ubuntu.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "playbook.yml"
+      ansible.galaxy_role_file = "requirements.yml"
+      #ansible.become = true
+    end
 
 
     ubuntu.vm.synced_folder "host-share", "/media/host-share"

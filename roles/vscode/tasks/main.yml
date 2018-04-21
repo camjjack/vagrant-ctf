@@ -1,0 +1,35 @@
+---
+- name: Install MS repo key
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  become: yes
+
+- name: Add Visual Studio code repository
+  apt_repository:
+    repo: 'deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main'
+    filename: vscode
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Install Visual Studio code
+  apt:
+    name: code
+    update_cache: yes
+    state: present
+  become: yes
+
+
+- name: Pylint for vscode
+  pip:
+    name: pylint
+
+- name: Installing vscode extensions
+  shell: code --install-extension {{ item }}
+  with_items:
+  - ms-vscode.cpptools
+  - ms-python.python
+  - robertohuertasm.vscode-icons
+  - donjayamanne.githistory
+  - PeterJausovec.vscode-docker

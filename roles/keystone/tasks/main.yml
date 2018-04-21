@@ -1,0 +1,37 @@
+---    
+- name: Install keystone dependencies
+  apt: "pkg={{ item }} state=present"
+  with_items:
+  - cmake
+  become: yes
+
+- name: get keystone
+  git:
+    repo: 'https://github.com/keystone-engine/keystone.git'
+    dest: '{{ tool_dir }}keystone'
+
+- name: setup linker for keystone
+  template:
+    src: keystone.conf.j2
+    dest: /etc/ld.so.conf.d/keystone.conf
+  become: yes
+
+- name: run ldconfig
+  shell: ldconfig
+  become: yes
+
+- name: Make keystone build dir
+  file:
+    path: '{{ tool_dir }}keystone/build'
+    state: directory
+
+- name: Make keystone shared library
+  shell:  ../make-share.sh
+  args:
+    chdir: '{{ tool_dir }}keystone/build'
+
+- name: Install keystone
+  shell: make install
+  args:
+    chdir: '{{ tool_dir }}/keystone/build'
+  become: yes

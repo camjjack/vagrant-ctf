@@ -1,0 +1,24 @@
+---
+
+- name: Get private internet access
+  unarchive:
+    src: '{{ pia_installer }}'
+    dest: '/tmp/'
+    creates: "/tmp/pia-v68-installer-linux.sh"
+    remote_src: yes
+
+- name: Install private internet access
+  shell: ./pia-v68-installer-linux.sh
+  args:
+    chdir: '/tmp/'
+
+- name: Make private internet access config dir
+  file:
+    path: '{{ pia_settings_dir }}'
+    state: directory
+
+- name: Configure private internet access
+  template:
+    src: pia-manager.json.j2
+    dest: '{{ pia_settings }}'
+  when: pia_username is defined

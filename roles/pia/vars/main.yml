@@ -1,0 +1,4 @@
+---
+pia_settings_dir: '{{ home_dir }}.pia_manager/data/'
+pia_settings: '{{ pia_settings_dir }}settings.json'
+pia_installer: 'https://installers.privateinternetaccess.com/download/pia-v68-installer-linux.tar.gz'

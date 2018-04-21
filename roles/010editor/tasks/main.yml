@@ -1,0 +1,11 @@
+---
+- name: Get 010Editor
+  unarchive:
+    src: "https://www.sweetscape.com/download/010EditorLinux{{ architecture }}Installer.tar.gz"
+    dest: /tmp/
+    remote_src: yes
+    
+- name: Install 010Editor
+  shell: './010EditorLinux{{ architecture }}Installer --mode silent --prefix {{ tool_dir }}010editor/'
+  args:
+    chdir: /tmp/

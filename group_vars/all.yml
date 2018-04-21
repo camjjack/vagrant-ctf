@@ -1,0 +1,12 @@
+---
+# Variables here are applicable to all host groups
+vagrant_user: vagrant
+home_dir: '/home/{{ vagrant_user }}/'
+tool_dir: '{{ home_dir }}tools/'
+tool_bin_dir: '{{ tool_dir }}bin/'
+bash_rc: '{{ home_dir }}.bashrc'
+
+#vagrant host hare directory
+# relative to VagrantFile
+local_share_dir: host-share
+vagrant_share_dir: '/media/{{ local_share_dir }}/'
