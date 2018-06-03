@@ -2,15 +2,16 @@
 
 - name: Get private internet access
   unarchive:
-    src: '{{ pia_installer }}'
+    src: '{{ pia_installer_tar }}'
     dest: '/tmp/'
-    creates: "/tmp/pia-v68-installer-linux.sh"
+    creates: "/tmp/{{ pia_installer_script }}"
     remote_src: yes
 
 - name: Install private internet access
-  shell: ./pia-v68-installer-linux.sh
+  shell: ./{{ pia_installer_script }}
   args:
     chdir: '/tmp/'
+  creates: /opt/pia
 
 - name: Make private internet access config dir
   file:
