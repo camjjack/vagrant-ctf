@@ -71,9 +71,9 @@ Vagrant.configure("2") do |config|
   config.vm.define "ctf-kali" do |kali|
     kali.vm.box = "unisec/kali-linux-2017.1-amd64"
     kali.vm.hostname = "invalid-ctf-kali"
-    #config.vm.provision :shell, :path => "vagrant_setup.sh", :privileged => false
-    #config.ssh.username = 'ubuntu'
-    #config.ssh.forward_agent = true
+    kali.vm.provision "ansible_local" do |ansible|
+      kali.playbook = "kali-playbook.yml"
+    end
 
     kali.vm.synced_folder "host-share", "/media/host-share"
 
