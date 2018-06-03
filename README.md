@@ -2,7 +2,7 @@
 CTF environment provisioned by vagrant
 
 # Requirements
-* Virtualbox
+* Virtualbox or Hyper-V
 * vagrant
 
 # My ctf environment
@@ -15,13 +15,17 @@ Some things I do are:
 
 
 # run
-        vagrant up [ctf-ubutnu, ctf-win, ctf-kali]
+        vagrant up [ctf-ubuntu, ctf-win, ctf-kali]
 
 # Conditional Installs
 
  * Binaryninja
     1. Requires BinaryNinja*.[zip,exe] in host-share directory
     1. Requires license.txt in host-share directory
+
+ * IDAPro for Windows
+    1. Requires idaprocw*.exe in host-share directory
+    1. Requires ida-password.txt in host-share directory
 
  * Private Internet Access
 

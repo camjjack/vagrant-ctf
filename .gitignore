@@ -1,7 +1,9 @@
 license.txt
-BinaryNinja*
+BinaryNinja*exe
+BinaryNinja*zip
 ida*.key
 installation-pw.txt
+ida-password.txt
 idapro*.exe
 private.yml
 playbook.retry
