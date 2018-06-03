@@ -29,9 +29,11 @@
   shell:  ../make-share.sh
   args:
     chdir: '{{ tool_dir }}keystone/build'
+  creates: '{{ tool_dir }}keystone/build/kstool'
 
 - name: Install keystone
   shell: make install
   args:
     chdir: '{{ tool_dir }}/keystone/build'
   become: yes
+  creates: '/usr/local/bin/kstool'

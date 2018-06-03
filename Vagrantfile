@@ -12,11 +12,9 @@ Vagrant.configure("2") do |config|
     ubuntu.ssh.username = 'vagrant'
     ubuntu.ssh.password = 'vagrant'
     ubuntu.ssh.forward_agent = true 
-    #ubuntu.vm.provision :shell, :path => "vagrant_setup.sh", :privileged => false
     ubuntu.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.galaxy_role_file = "requirements.yml"
-      #ansible.become = true
     end
 
 
