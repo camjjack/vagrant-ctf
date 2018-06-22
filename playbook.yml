@@ -67,9 +67,9 @@
         name: one_gadget
         state: latest
 
-    - name: get unicorn
-      pip:
-        name: unicorn
+    #- name: get unicorn
+    #  pip:
+    #    name: unicorn
 
     # multilib
     - name: dpkg add arch
