@@ -11,7 +11,7 @@
   shell: ./{{ pia_installer_script }}
   args:
     chdir: '/tmp/'
-  creates: /opt/pia
+    creates: /opt/pia
 
 - name: Make private internet access config dir
   file:

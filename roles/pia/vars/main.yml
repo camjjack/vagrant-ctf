@@ -1,6 +1,6 @@
 ---
 pia_settings_dir: '{{ home_dir }}.pia_manager/data/'
 pia_settings: '{{ pia_settings_dir }}settings.json'
-pia_version: '79'
+pia_version: '81'
 pia_installer_tar: 'https://installers.privateinternetaccess.com/download/pia-v{{ pia_version }}-installer-linux.tar.gz'
 pia_installer_script: 'pia-v{{ pia_version }}-installer-linux.sh'

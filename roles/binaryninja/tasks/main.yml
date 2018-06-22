@@ -11,12 +11,14 @@
   unarchive:
     src: '{{ binary_ninja_personal_zip }}'
     dest: '{{ tool_dir }}'
+    creates: '{{ tool_dir }}/binaryninja/binaryninja'
   when: binaryninja_personal.stat.exists
 
 - name: Get Binary ninja
   unarchive:
     src: '{{ binary_ninja_zip }}'
     dest: '{{ tool_dir }}'
+    creates: '{{ tool_dir }}/binaryninja/binaryninja'
   when: binaryninja.stat.exists
 
     

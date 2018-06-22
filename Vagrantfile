@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
     ubuntu.vm.hostname = "invalid-ctf"
     ubuntu.ssh.username = 'vagrant'
     ubuntu.ssh.password = 'vagrant'
-    ubuntu.ssh.forward_agent = true 
+    ubuntu.ssh.forward_agent = true
     ubuntu.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "playbook.yml"
       ansible.galaxy_role_file = "requirements.yml"

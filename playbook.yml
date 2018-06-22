@@ -55,6 +55,7 @@
       shell: ./sys/install.sh
       args:
         chdir: '{{ tool_dir }}radare2'
+        creates: '/usr/bin/radare2'
 
     - name: Install Ruby
       apt: "pkg={{ item }} state=present"

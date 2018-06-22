@@ -13,6 +13,7 @@ Some things I do are:
 * Always use private internet access for a vpn. (Other vpn services are available)
 * Use Dropbox to share ctf files between VMs. This is my persistant storage with all my previous ctf problems and solutions.
 * Do most of my work in the ubuntu VM. Kali for pen testing tools, and windows for when its required
+* For socat binaries I use the ctfrun script in the tools directory.
 
 # setup
 Build the required vagrant box file with packer
@@ -26,6 +27,13 @@ Build the required vagrant box file with packer
 
 # run
         vagrant up [ctf-ubuntu, ctf-win, ctf-kali]
+
+# notes / issues
+
+* Kali box file does not exist for hyper-v and i haven't created one yet. so `vagrant up` or `vagrant up ctf-kali` will not work on windows.
+* Ansible roles are not a solid as they could be. Some we keep reinstalling/downloading if vagrant run again with `--provision` rather than skipping if already complete
+* Firefox plugin installs would be nice
+* Windows packer build (in submodule) cant handle both virtualbox and hyper-v atm. Need to modify autounnatend.xml to handle different drives.
 
 # Conditional Installs
 

@@ -2,6 +2,7 @@
 - name: Install MS repo key
   apt_key:
     url: https://packages.microsoft.com/keys/microsoft.asc
+    id: BE1229CF
     state: present
   become: yes
 
