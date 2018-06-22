@@ -1,0 +1,33 @@
+---  
+- name: Install powerline
+  apt: "pkg={{ item }} state=present"
+  with_items:
+  - powerline
+  - fonts-powerline
+  - python3-powerline
+  become: yes
+
+- name: Powerline bashrc
+  lineinfile:
+    dest: "{{ bash_rc }}"
+    line: "source {{ powerline_bindings }}bash/powerline.sh"
+    create: yes
+
+- name: Powerline vimrc
+  blockinfile:
+    dest: "{{ home_dir }}.vimrc"
+    create: yes
+    marker: '" {mark} ANSIBLE MANAGED BLOCK'
+    block: |
+        python3 from powerline.vim import setup as powerline_setup
+        python3 powerline_setup()
+        python3 del powerline_setup
+
+
+- name: Powerline tmux.conf
+  blockinfile:
+    dest: "{{ home_dir }}.tmux.conf"
+    create: yes
+    block: |
+      'source {{ powerline_bindings }}tmux/powerline.conf'
+      set-option -g default-terminal "screen-256color"

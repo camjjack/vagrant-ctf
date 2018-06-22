@@ -1,0 +1,41 @@
+- hosts: all
+
+  vars_files:
+  - group_vars/all.yml
+  - [ "group_vars/private.yml", "group_vars/blank.yml" ]
+
+  pre_tasks:
+    - name: update
+      apt:
+        upgrade: dist
+      become: yes
+
+    - name: Ansible requirements
+      apt: "pkg={{ item }} state=present"
+      with_items:
+      - git
+      - python-pip
+      become: yes
+    
+    - name: Make tools and bin dir
+      file:
+        path: '{{ tool_bin_dir }}'
+        state: directory
+        recurse: true
+
+    - name: Add tools/bin to PATH
+      lineinfile:
+        path: '{{ bash_rc }}'
+        line: 'PATH=$PATH:{{ tool_bin_dir }}'
+
+    - name: Source new PATH
+      shell: '. {{ bash_rc }}'
+
+  roles:
+    - pia
+
+  tasks:
+    - name: Install dropbox
+      apt:
+        deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
+      become: yes

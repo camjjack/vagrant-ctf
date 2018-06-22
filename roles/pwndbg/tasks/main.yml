@@ -1,0 +1,11 @@
+---
+
+- name: get pwndbg
+  git:
+    repo: 'https://github.com/zachriggle/pwndbg'
+    dest: '{{ tool_dir }}pwndbg'
+
+- name: setup pwndbg
+  shell: ./setup.sh
+  args:
+    chdir: '{{ tool_dir }}pwndbg'

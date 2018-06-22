@@ -1,0 +1,37 @@
+---
+- name: Check for Binary ninja
+  local_action: 'stat path={{ binary_ninja_zip }}'
+  register: binaryninja
+
+- name: Check for Binary ninja personal
+  local_action: 'stat path={{ binary_ninja_personal_zip }}'
+  register: binaryninja_personal
+
+- name: Get Binary ninja personal
+  unarchive:
+    src: '{{ binary_ninja_personal_zip }}'
+    dest: '{{ tool_dir }}'
+  when: binaryninja_personal.stat.exists
+
+- name: Get Binary ninja
+  unarchive:
+    src: '{{ binary_ninja_zip }}'
+    dest: '{{ tool_dir }}'
+  when: binaryninja.stat.exists
+
+    
+- name: Check for Binary ninja license
+  local_action: 'stat path={{ binary_ninja_license }}'
+  register: binaryninja_license
+
+- name: Make binaryninja config dir
+  file:
+    path: '{{ binary_ninja_config_dir }}'
+    state: directory
+  when: binaryninja_license.stat.exists
+
+- name: Install Binary ninja license
+  copy: 
+    dest: '{{ binary_ninja_license_dest }}'
+    src: '{{ binary_ninja_license }}'
+  when: binaryninja_license.stat.exists

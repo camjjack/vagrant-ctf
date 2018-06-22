@@ -1,0 +1,17 @@
+---
+- name: Installing socat
+  apt:
+    name: socat
+    state: present
+  become: yes
+
+- name: socat ctfrunner
+  git:
+    repo: 'https://github.com/camjjack/ctfrun.git'
+    dest: '{{ tool_dir }}ctfrun'
+
+- name: link socat ctfrunner
+  file: 
+    path: '{{ tool_bin_dir }}/ctfrun'
+    state: link
+    src: '{{ tool_dir }}ctfrun/ctfrun'

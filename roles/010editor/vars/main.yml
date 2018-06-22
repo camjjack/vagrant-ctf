@@ -1,0 +1,2 @@
+---
+architecture: "{% if ansible_architecture == 'x86_64' %}64{% else %}32{% endif %}"

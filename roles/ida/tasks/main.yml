@@ -1,0 +1,13 @@
+---
+
+- name: Get IDA free
+  get_url:
+    url: '{{ ida_installer_url }}'
+    dest: '/tmp/{{ ida_installer }}'
+    creates: "/tmp/{{ ida_installer }}"
+    checksum: '{{ ida_installer_checksum }}'
+
+- name: Install IDA Free
+  shell: ./{{ ida_installer }}
+  args:
+    chdir: '/tmp/'

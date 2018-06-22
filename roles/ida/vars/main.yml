@@ -1,0 +1,5 @@
+---
+ida_installer: 'idafree70_linux.run'
+ida_installer_checksum: 'sha1:85984147fea9625fa149484eae2ef6d0c2739856'
+ida_download_url: 'https://out7.hex-rays.com/files/'
+ida_installer_url: '{{ ida_download_url }}{{ ida_installer }}'

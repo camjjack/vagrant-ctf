@@ -1,0 +1,27 @@
+Set-ExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions -EnableShowFullPathInTitlebar
+DISM /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux
+chocolatey feature enable -n=allowGlobalConfirmation
+choco install git
+choco install GoogleChrome
+choco install wireshark
+choco install python3
+choco install python
+choco install vscode
+choco install vscode-icons
+choco install sysinternals
+refreshenv
+code --install-extension robertohuertasm.vscode-icons
+code --install-extension ms-vscode.cpptools
+code --install-extension ms-python.python
+code --install-extension donjayamanne.githistory
+code --install-extension PeterJausovec.vscode-docker
+choco install ida-free
+choco install pia
+c:\\vagrant\\setupPIA.ps1
+choco install dropbox
+choco install 010editor
+Install-ChocolateyPinnedTaskBarItem "${env:UserProfile}\Desktop\code.lnk"
+Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
+choco install c:\\host-share\\idapro\\idapro.nuspec
+choco install -y c:\\host-share\\binaryninja\\binaryninja.nuspec
+chocolatey feature disable -n=allowGlobalConfirmation

@@ -1,0 +1,109 @@
+- hosts: all
+
+  vars_files:
+  - group_vars/all.yml
+  - [ "group_vars/private.yml", "group_vars/blank.yml" ]
+
+  pre_tasks:
+    - name: update
+      apt:
+        upgrade: dist
+      become: yes
+
+    - name: Ansible requirements
+      apt: "pkg={{ item }} state=present"
+      with_items:
+      - git
+      - python-pip
+      become: yes
+    
+    - name: Make tools and bin dir
+      file:
+        path: '{{ tool_bin_dir }}'
+        state: directory
+        recurse: true
+
+    - name: Add tools/bin to PATH
+      lineinfile:
+        path: '{{ bash_rc }}'
+        line: 'PATH=$PATH:{{ tool_bin_dir }}'
+
+    - name: Source new PATH
+      shell: '. {{ bash_rc }}'
+
+  roles:
+    - powerline
+    - pia
+    - binaryninja
+    - angr
+    - 010editor
+    - vscode
+    - keystone
+    - pwndbg
+    - pwntools
+    - ctfrun
+    - qemu-multiarch
+    - nephelaiio.tmux
+
+  tasks:
+    - name: get radare2
+      git:
+        repo: 'https://github.com/radare/radare2'
+        dest: '{{ tool_dir }}radare2'
+
+    - name: setup radare2
+      shell: ./sys/install.sh
+      args:
+        chdir: '{{ tool_dir }}radare2'
+
+    - name: Install Ruby
+      apt: "pkg={{ item }} state=present"
+      with_items:
+      - ruby
+      become: yes
+
+    - name: Install onegadget
+      gem:
+        name: one_gadget
+        state: latest
+
+    - name: get unicorn
+      pip:
+        name: unicorn
+
+    # multilib
+    - name: dpkg add arch
+      shell: dpkg --add-architecture i386
+      become: yes
+
+    - name: multilib
+      apt: "pkg={{ item }} state=present"
+      with_items:
+      - libc6:i386
+      - libncurses5:i386
+      - libstdc++6:i386
+      become: yes
+
+    - name: Installing default tools
+      apt: "pkg={{ item }} state=present"
+      with_items:
+      - tmux
+      - vim
+      - gdb
+      - gdb-multiarch
+      - unzip
+      become: yes
+
+    - name: Install dropbox
+      apt:
+        deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
+      become: yes
+
+    - name: Install wireshark
+      apt:
+        name: wireshark
+      become: yes
+
+# todo: git clone my config repo.
+
+# todo: firefox addons and set search enging to duckduckgo
