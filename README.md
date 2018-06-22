@@ -4,6 +4,7 @@ CTF environment provisioned by vagrant
 # Requirements
 * Virtualbox or Hyper-V
 * vagrant
+* packer
 
 # My ctf environment
 This sets up a ctf environment i've been using ad-hoc for a little while. Its not perfect but enough to get you up and running.
@@ -13,6 +14,15 @@ Some things I do are:
 * Use Dropbox to share ctf files between VMs. This is my persistant storage with all my previous ctf problems and solutions.
 * Do most of my work in the ubuntu VM. Kali for pen testing tools, and windows for when its required
 
+# setup
+Build the required vagrant box file with packer
+
+        git submodule update --init --recursive
+        cd packer-templates
+        ./build.sh -a
+        or if windows:
+        ./build.ps1 --vagrantAdd
+        cd ..
 
 # run
         vagrant up [ctf-ubuntu, ctf-win, ctf-kali]

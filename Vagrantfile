@@ -1,13 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-file_to_disk = File.realpath( "." ).to_s + "/disk.vdi"
-
-
 
 Vagrant.configure("2") do |config|
   config.vm.define "ctf-ubuntu" do |ubuntu|
     
-    ubuntu.vm.box = "../hyper-v-packer-templates/dist/virtualbox-ubuntu-xenial-enhanced.box"
+    ubuntu.vm.box = "ubuntu-18.04"
     ubuntu.vm.hostname = "invalid-ctf"
     ubuntu.ssh.username = 'vagrant'
     ubuntu.ssh.password = 'vagrant'
@@ -16,7 +13,6 @@ Vagrant.configure("2") do |config|
       ansible.playbook = "playbook.yml"
       ansible.galaxy_role_file = "requirements.yml"
     end
-
 
     ubuntu.vm.synced_folder "host-share", "/media/host-share"
 
