@@ -25,17 +25,19 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
       vb.customize ["modifyvm", :id, "--usb", "on"]     
       vb.gui = true
+      vb.linked_clone = true
     end
     ubuntu.vm.network "public_network", bridge: "Default Switch"
     ubuntu.vm.provider "hyperv" do |hv|
       hv.enable_virtualization_extensions = true
-      hv.differencing_disk = true
+      hv.linked_clone = true
     end
   end
 
   config.vm.define "ctf-win" do |win|
-    win.vm.box = "StefanScherer/windows_10"
+    win.vm.box = "windows-10"
     win.vm.hostname = "invalid-ctf-win"
+    win.vm.communicator = "winrm"
     win.vm.provision "file", source: "./windows", destination: "c:\\vagrant"
     win.vm.provision "file", source: "./host-share", destination: "c:\\host-share"
     win.vm.provision "file", source: "./chocolatey", destination: "c:\\host-share"
@@ -55,11 +57,12 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--usb", "on"]    
       vb.customize ["modifyvm", :id, "--monitorcount", "1"]   
       vb.gui = true
+      vb.linked_clone = true
     end
     win.vm.network "public_network", bridge: "Default Switch"
     win.vm.provider "hyperv" do |hv|
       hv.enable_virtualization_extensions = true
-      hv.differencing_disk = true
+      hv.linked_clone = true
     end
   end
   config.vm.define "ctf-kali" do |kali|
@@ -81,11 +84,12 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--usb", "on"]    
       vb.customize ["modifyvm", :id, "--monitorcount", "1"]   
       vb.gui = true
+      vb.linked_clone = true
     end
     kali.vm.network "public_network", bridge: "Default Switch"
     kali.vm.provider "hyperv" do |hv|
       hv.enable_virtualization_extensions = true
-      hv.differencing_disk = true
+      hv.linked_clone = true
     end
   end
 end

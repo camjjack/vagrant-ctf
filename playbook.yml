@@ -44,6 +44,8 @@
     - ctfrun
     - qemu-multiarch
     - nephelaiio.tmux
+    - chrome
+    - lastpass
 
   tasks:
     - name: get radare2
