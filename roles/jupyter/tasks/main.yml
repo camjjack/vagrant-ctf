@@ -1,0 +1,11 @@
+---
+- name: Install jupyter dependencies
+  apt: "pkg={{ item }} state=present"
+  with_items:
+  - python3-dev
+  become: yes
+
+- name: Install jupyter
+  pip:
+    name: jupyter
+  become: yes

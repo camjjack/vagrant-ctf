@@ -37,8 +37,12 @@ Build the required vagrant box file with packer
 
 # Conditional Installs
 
- * Binaryninja
-    1. Requires BinaryNinja*.[zip,exe] in host-share directory
+ * Binaryninja Linux
+    1. Requires BinaryNinja.zip in host-share directory
+    1. Requires license.txt in host-share directory
+
+ * Binaryninja for Windows
+    1. Requires BinaryNinja.exe in chocolatey\binaryninja\tools directory
     1. Requires license.txt in host-share directory
 
  * IDAPro for Windows

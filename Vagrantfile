@@ -11,7 +11,6 @@ Vagrant.configure("2") do |config|
     ubuntu.ssh.forward_agent = true
     ubuntu.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "playbook.yml"
-      ansible.galaxy_role_file = "requirements.yml"
     end
 
     ubuntu.vm.synced_folder "host-share", "/media/host-share"
@@ -28,8 +27,10 @@ Vagrant.configure("2") do |config|
     end
     ubuntu.vm.network "public_network", bridge: "Default Switch"
     ubuntu.vm.provider "hyperv" do |hv|
-      hv.enable_virtualization_extensions = true
-      hv.differencing_disk = true
+      hv.linked_clone = true
+      hv.vm_integration_services = {
+        guest_service_interface: true
+      }
     end
   end
 
@@ -58,15 +59,18 @@ Vagrant.configure("2") do |config|
     end
     win.vm.network "public_network", bridge: "Default Switch"
     win.vm.provider "hyperv" do |hv|
-      hv.enable_virtualization_extensions = true
-      hv.differencing_disk = true
+      hv.enable_virtualization_extensions = false
+      hv.linked_clone = true
+      hv.vm_integration_services = {
+        guest_service_interface: true
+      }
     end
   end
   config.vm.define "ctf-kali" do |kali|
     kali.vm.box = "unisec/kali-linux-2017.1-amd64"
     kali.vm.hostname = "invalid-ctf-kali"
     kali.vm.provision "ansible_local" do |ansible|
-      kali.playbook = "kali-playbook.yml"
+      ansible.playbook = "kali-playbook.yml"
     end
 
     kali.vm.synced_folder "host-share", "/media/host-share"
@@ -85,7 +89,7 @@ Vagrant.configure("2") do |config|
     kali.vm.network "public_network", bridge: "Default Switch"
     kali.vm.provider "hyperv" do |hv|
       hv.enable_virtualization_extensions = true
-      hv.differencing_disk = true
+      hv.linked_clone = true
     end
   end
 end

@@ -1,0 +1,46 @@
+---
+
+# Did this rather than commented out tasks as it was failing for my to build in the final step
+- name: Get CyberChef prebuilt
+  get_url:
+    url: 'https://github.com/gchq/CyberChef/releases/download/v8.24.2/cyberchef.htm'
+    dest: '{{ tool_dir }}CyberChef/cyberchef.htm'
+
+- name: Get CyberChef prebuilt js
+  get_url:
+    url: 'https://github.com/gchq/CyberChef/releases/download/v8.24.2/CyberChef.js'
+    dest: '{{ tool_dir }}CyberChef/CyberChef.js'
+
+#- name: Install CyberChef dependencies
+#  apt:
+#    name: "{{ items }}"
+#    state: present
+#  vars:
+#    items:
+#    - git
+#    - nodejs
+#    - npm
+#  become: yes
+
+#- name: get CyberChef
+#  git:
+#    repo: 'https://github.com/gchq/CyberChef.git'
+#    dest: '{{ tool_dir }}CyberChef'
+    
+#- name: Install CyberChef npm dependencies
+#  npm: npm install
+#    path: '{{ tool_dir }}CyberChef'
+    
+#- name: Install grunt
+#  npm:
+#    name: grunt
+#    global: yes
+#    state: latest
+#  become: yes
+    
+#- name: Deploy CyberChef
+#  shell: grunt prod
+#  args:
+#    chdir: '{{ tool_dir }}CyberChef'
+#  environment:
+#    NODE_OPTIONS: --max_old_space_size=2048

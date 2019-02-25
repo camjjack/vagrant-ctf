@@ -11,3 +11,11 @@
   args:
     chdir: /tmp/
     creates: '{{ tool_dir }}010editor/'
+
+- name: Add 010editor to PATH
+  lineinfile:
+    path: '{{ bash_rc }}'
+    line: 'PATH=$PATH:{{ tool_dir }}/010editor/'
+
+- name: Source new PATH
+  shell: '. {{ bash_rc }}'

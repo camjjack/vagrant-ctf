@@ -2,10 +2,12 @@
 
 - name: get pwndbg
   git:
-    repo: 'https://github.com/zachriggle/pwndbg'
+    repo: 'https://github.com/pwndbg/pwndbg'
     dest: '{{ tool_dir }}pwndbg'
+  register: gitclone
 
 - name: setup pwndbg
   shell: ./setup.sh
   args:
     chdir: '{{ tool_dir }}pwndbg'
+  when: gitclone.changed

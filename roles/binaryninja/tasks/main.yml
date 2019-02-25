@@ -37,3 +37,11 @@
     dest: '{{ binary_ninja_license_dest }}'
     src: '{{ binary_ninja_license }}'
   when: binaryninja_license.stat.exists
+
+- name: Add binaryninja to PATH
+  lineinfile:
+    path: '{{ bash_rc }}'
+    line: 'PATH=$PATH:{{ tool_dir }}/binaryninja/'
+
+- name: Source new PATH
+  shell: '. {{ bash_rc }}'
