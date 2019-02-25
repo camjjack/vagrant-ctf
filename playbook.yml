@@ -56,6 +56,8 @@
     - jupyter
     - docker-ce
     - pia
+    - chrome
+    - lastpass
 
   tasks:
     - name: get radare2
