@@ -1,0 +1,11 @@
+---
+
+- name: Install i3
+  apt: "pkg={{ item }} state=present"
+  with_items:
+  - i3
+
+- name: Configure i3
+  template:
+    src: config.j2
+    dest: '{{ i3_config_location }}'

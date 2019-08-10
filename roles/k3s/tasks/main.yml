@@ -1,0 +1,11 @@
+- name: Download k3s install script
+  get_url:
+    url: {{ k3s_install_script }}
+    dest: /tmp/k3s_install.sh
+    mode: 0755
+    
+- name: Install k3s
+  shell: './k3s_install.sh'
+  args:
+    chdir: /tmp/
+    creates: '/etc/rancher/k3s/k3s.yaml'
