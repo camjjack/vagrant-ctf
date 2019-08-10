@@ -5,6 +5,9 @@
   - python3-dev
   - libffi-dev
   - build-essential
+  - libffi-dev
+  - build-essential
+  - virtualenvwrapper
   become: yes
 
 - name: get angr

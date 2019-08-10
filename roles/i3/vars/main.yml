@@ -1,0 +1,2 @@
+---
+i3_config_location: '{{ home_dir }}.config/i3/config'

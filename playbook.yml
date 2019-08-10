@@ -58,6 +58,10 @@
     - pia
     - chrome
     - lastpass
+    - ghidra
+    - i3
+    - docker
+    - k3s
 
   tasks:
     - name: get radare2
