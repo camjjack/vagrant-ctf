@@ -1,5 +1,5 @@
-Set-ExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions -EnableShowFullPathInTitlebar
-DISM /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux
+Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions -EnableShowFullPathInTitlebar
+DISM /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /norestart
 chocolatey feature enable -n=allowGlobalConfirmation
 choco install git
 choco install GoogleChrome
@@ -8,20 +8,22 @@ choco install python3
 choco install python
 choco install vscode
 choco install vscode-icons
+choco install visualstudio2017community
 choco install sysinternals
 refreshenv
-code --install-extension robertohuertasm.vscode-icons
+code --install-extension vscode-icons-team.vscode-icons
 code --install-extension ms-vscode.cpptools
 code --install-extension ms-python.python
 code --install-extension donjayamanne.githistory
-code --install-extension PeterJausovec.vscode-docker
-choco install ida-free
+code --install-extension ms-azuretools.vscode-docker
+code --install-extension eamodio.gitlens
+
 choco install pia
 c:\\vagrant\\setupPIA.ps1
 choco install dropbox
-choco install 010editor
-Install-ChocolateyPinnedTaskBarItem "${env:UserProfile}\Desktop\code.lnk"
+choco install 010editor.install
+Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles}\Microsof VS Code\code.exe"
 Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
-choco install c:\\host-share\\idapro\\idapro.nuspec
-choco install -y c:\\host-share\\binaryninja\\binaryninja.nuspec
+choco install --source="c:\\host-share\\chocolatey\\;https://chocolatey.org/api/v2" ghidra --version=9.0.4
+choco install c:\\host-share\\chocolatey\\binaryninja\\binaryninja.nuspec
 chocolatey feature disable -n=allowGlobalConfirmation

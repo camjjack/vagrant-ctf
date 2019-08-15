@@ -1,7 +1,8 @@
 ---
 - name: Installing socat
-  apt:
-    name: socat
+  package:
+    name:
+    - socat
     state: present
   become: yes
 

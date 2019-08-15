@@ -59,7 +59,7 @@ Use this format for `group_vars/private.yml` Note this file does not exist and i
         pia_password: '<password_here>'
 
 
-# ctf-ubutnu
+# ctf-ubuntu
 1. Default user is vagrant
 1. Default password is vagrant
 1. Tools located in ~/tools/

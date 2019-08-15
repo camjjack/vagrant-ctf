@@ -1,13 +1,14 @@
 ---
 - name: Install angr dependencies
-  apt: "pkg={{ item }} state=present"
-  with_items:
-  - python3-dev
-  - libffi-dev
-  - build-essential
-  - libffi-dev
-  - build-essential
-  - virtualenvwrapper
+  package:
+    name:
+    - python3-dev
+    - libffi-dev
+    - build-essential
+    - libffi-dev
+    - build-essential
+    - virtualenvwrapper
+    state: present
   become: yes
 
 - name: get angr

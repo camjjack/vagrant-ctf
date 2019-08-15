@@ -19,7 +19,7 @@ $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
 #$url64      = '' # 64bit URL here (HTTPS preferred) or remove - if installer contains both (very rare), use $url
 
 $PASSWORD_FILE = "ida-password.txt"
-$INSTALLER_FILE = Get-Item -Path "*" -Filter "idaprocw*.exe"
+$INSTALLER_FILE = Get-Item -Path "..\..\*" -Filter "idaprocw*.exe"
 
 
 if(Test-Path $PASSWORD_FILE) {
@@ -60,7 +60,7 @@ $packageArgs = @{
   #validExitCodes= @(0) #please insert other valid exit codes here
 }
 
-Install-ChocolateyPackage @packageArgs
+Install-ChocolateyInstallPackage @packageArgs
 
 #Install-ChocolateyZipPackage @packageArgs # https://chocolatey.org/docs/helpers-install-chocolatey-zip-package
 ## If you are making your own internal packages (organizations), you can embed the installer or 

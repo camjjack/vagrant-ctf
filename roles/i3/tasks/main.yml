@@ -1,9 +1,16 @@
 ---
-
 - name: Install i3
-  apt: "pkg={{ item }} state=present"
-  with_items:
-  - i3
+  package:
+    name:
+    - i3
+    state: present
+  become: yes
+
+- name: Ensure i3 config dir is present
+  file:
+    path: '{{ i3_config_dir }}'
+    state: directory
+    recurse: true
 
 - name: Configure i3
   template:

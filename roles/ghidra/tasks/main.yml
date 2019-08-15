@@ -1,23 +1,28 @@
 ---
-
 - name: add ubuntu openjdk ppa
   become: yes
   apt_repository: repo='ppa:openjdk-r/ppa'
   when: ansible_distribution == "Ubuntu"
 
 - name: Install openjdk 11
-  apt: "pkg={{ item }} state=present"
-  with_items:
-  - openjdk-11-jdk
-  - openjdk-11-jre-headless
+  package:
+    name:
+    - openjdk-11-jdk
+    - openjdk-11-jre-headless
+    state: present
   become: yes
  
 - name: Get Ghidra
   unarchive:
     src: '{{ ghidra_zip }}'
-    dest: '{{ tool_dir }}ctfrun'
-    creates: "{{ tool_dir }}ctfrun/ghidraRun"
+    dest: '{{ tool_dir }}'
+    creates: "{{ tool_dir }}{{ ghidra_dest }}/ghidraRun"
     remote_src: yes
 
 - name: Making ghidraRun executable
-  file: dest={{ tool_dir }}ctfrun/ghidraRun mode=+x
+  file: dest={{ tool_dir }}{{ ghidra_dest }}/ghidraRun mode=+x
+
+- name: Add Ghidra to PATH
+  lineinfile:
+    path: '{{ bash_rc }}'
+    line: 'PATH=$PATH:{{ tool_dir }}{{ ghidra_dest }}'

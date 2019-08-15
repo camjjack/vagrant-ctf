@@ -1,5 +1,4 @@
-https://ghidra-sre.org/ghidra_9.0.4_PUBLIC_20190516.zip
 ---
 ghidra_version: '9.0.4'
-ghidra_release_date: '20190516'
-ghidra_zip: 'ghidra_{{ghidra_version}}_PUBLIC_{{ghidra_release_date}}.zip'
+ghidra_dest: 'ghidra_{{ ghidra_version }}'
+ghidra_zip: 'https://ghidra-sre.org/ghidra_9.0.4_PUBLIC_20190516.zip'

@@ -1,8 +1,9 @@
 ---    
 - name: Install keystone dependencies
-  apt: "pkg={{ item }} state=present"
-  with_items:
-  - cmake
+  package:
+    name:
+    - cmake
+    state: present
   become: yes
 
 - name: get keystone

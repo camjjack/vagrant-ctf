@@ -1,10 +1,11 @@
 ---  
 - name: Install powerline
-  apt: "pkg={{ item }} state=present"
-  with_items:
-  - powerline
-  - fonts-powerline
-  - python3-powerline
+  package:
+    name:
+    - powerline
+    - fonts-powerline
+    - python3-powerline
+    state: present
   become: yes
 
 - name: Powerline bashrc
@@ -22,7 +23,6 @@
         python3 from powerline.vim import setup as powerline_setup
         python3 powerline_setup()
         python3 del powerline_setup
-
 
 - name: Powerline tmux.conf
   blockinfile:

@@ -32,6 +32,7 @@ Vagrant.configure("2") do |config|
       hv.vm_integration_services = {
         guest_service_interface: true
       }
+      hv.enhanced_session_transport_type = "HvSocket"
     end
   end
 
@@ -39,10 +40,10 @@ Vagrant.configure("2") do |config|
     win.vm.box = "windows-10"
     win.vm.hostname = "invalid-ctf-win"
     win.vm.communicator = "winrm"
-    win.vm.provision "file", source: "./windows", destination: "c:\\vagrant"
-    win.vm.provision "file", source: "./host-share", destination: "c:\\host-share"
-    win.vm.provision "file", source: "./chocolatey", destination: "c:\\host-share"
-    win.vm.provision "file", source: "./group_vars", destination: "c:\\host-share"
+    win.vm.provision "file", source: "windows", destination: "c:\\vagrant"
+    win.vm.provision "file", source: "host-share", destination: "c:\\host-share"
+    win.vm.provision "file", source: "chocolatey", destination: "c:\\host-share"
+    win.vm.provision "file", source: "group_vars", destination: "c:\\host-share"
     win.vm.provision "file", source: "windows/BoxStarterGist.txt", destination: "c:\\vagrant\\BoxStarterGist.txt"
     win.vm.provision "shell", path: "windows/installChocolatey.ps1"
     win.vm.provision "shell", path: "windows/installBoxStarter.bat"
@@ -66,6 +67,7 @@ Vagrant.configure("2") do |config|
       hv.vm_integration_services = {
         guest_service_interface: true
       }
+      #hv.enhanced_session_transport_type = "HvSocket"
     end
   end
   config.vm.define "ctf-kali" do |kali|

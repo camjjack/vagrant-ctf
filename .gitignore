@@ -9,3 +9,4 @@ private.yml
 playbook.retry
 .vagrant
 roles/*.*/**/*
+vagrant.log

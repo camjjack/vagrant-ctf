@@ -1,15 +1,12 @@
 ---
 - name: Install pwntools dependencies
-  apt: 
-    name: "{{ items }}"
-    state: present
-  vars:
-    items:
+  package:
+    name:
     - python2.7
     - python-dev
     - libssl-dev
     - libffi-dev
-    - build-essential
+    state: present
   become: yes
 
 - name: get pwntools

@@ -2,14 +2,15 @@
 # QEMU with MIPS/ARM - http://reverseengineering.stackexchange.com/questions/8829/cross-debugging-for-mips-elf-with-qemu-toolchain
    
 - name: Install keystone dependencies
-  apt: "pkg={{ item }} state=present"
-  with_items:
-  - qemu
-  - qemu-user
-  - qemu-user-static
-  - 'binfmt*'
-  - libc6-armhf-armel-cross
-  - libc6-mipsel-cross
+  package:
+    name:
+    - qemu
+    - qemu-user
+    - qemu-user-static
+    - 'binfmt*'
+    - libc6-armhf-armel-cross
+    - libc6-mipsel-cross
+    state: present
   become: yes
 
 - name: Make qemu binfmt dir

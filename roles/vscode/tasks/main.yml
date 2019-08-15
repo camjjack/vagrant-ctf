@@ -15,9 +15,9 @@
   become: yes
 
 - name: Install Visual Studio code
-  apt:
-    name: code
-    update_cache: yes
+  package:
+    name:
+    - code
     state: present
   become: yes
 
@@ -31,6 +31,7 @@
   with_items:
   - ms-vscode.cpptools
   - ms-python.python
-  - robertohuertasm.vscode-icons
+  - vscode-icons-team.vscode-icons
   - donjayamanne.githistory
-  - PeterJausovec.vscode-docker
+  - ms-azuretools.vscode-docker
+  - eamodio.gitlens

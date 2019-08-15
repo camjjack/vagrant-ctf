@@ -1,8 +1,9 @@
 ﻿
 $ErrorActionPreference = 'Stop'; # stop on all errors
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$INSTALLER_FILE = 'BinaryNinja.exe'
-$LICENCE_FILE = 'license.txt'
+$hostShare = "C:\host-share"
+$INSTALLER_FILE = Join-Path $hostShare 'BinaryNinja.exe'
+$LICENCE_FILE = Join-Path $hostShare 'license.txt'
 $BINARY_NINJA_USER_DIR = "$($env:AppData)/Binary Ninja"
 $LICENCE_INSTALL_LOC = "$($BINARY_NINJA_USER_DIR)/license.dat"
 
@@ -20,7 +21,7 @@ $packageArgs = @{
   validExitCodes= @(0)
 }
 
-Install-ChocolateyPackage @packageArgs
+Install-ChocolateyInstallPackage @packageArgs
 
 if(Test-Path $LICENCE_FILE) {
   mkdir -Path $BINARY_NINJA_USER_DIR

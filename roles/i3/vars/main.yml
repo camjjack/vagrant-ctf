@@ -1,2 +1,3 @@
 ---
-i3_config_location: '{{ home_dir }}.config/i3/config'
+i3_config_dir: '{{ home_dir }}.config/i3/'
+i3_config_location: '{{ i3_config_dir }}config'

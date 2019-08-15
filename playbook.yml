@@ -11,17 +11,19 @@
       become: yes
 
     - name: Ansible requirements
-      apt: "pkg={{ item }} state=present"
-      with_items:
-      - git
-      - python-pip
+      package:
+        name:
+        - git
+        - python-pip
+        state: present
       become: yes
 
     - name: Basic requirements
-      apt: "pkg={{ item }} state=present"
-      with_items:
-      - python3
-      - python3-pip
+      package:
+        name:
+        - python3
+        - python3-pip
+        state: present
       become: yes
     
     - name: Make tools and bin dir
@@ -54,7 +56,6 @@
     - qemu-multiarch
     - cyberchef
     - jupyter
-    - docker-ce
     - pia
     - chrome
     - lastpass
@@ -76,10 +77,11 @@
         creates: '/usr/bin/radare2'
 
     - name: Install Ruby
-      apt: "pkg={{ item }} state=present"
-      with_items:
-      - ruby
-      - ruby-dev
+      package:
+        name:
+        - ruby
+        - ruby-dev
+        state: present
       become: yes
 
     - name: Install onegadget
@@ -104,21 +106,23 @@
       become: yes
 
     - name: multilib
-      apt: "pkg={{ item }} state=present"
-      with_items:
-      - libc6:i386
-      - libncurses5:i386
-      - libstdc++6:i386
+      package:
+        name:
+        - libc6:i386
+        - libncurses5:i386
+        - libstdc++6:i386
+        state: present
       become: yes
 
     - name: Installing default tools
-      apt: "pkg={{ item }} state=present"
-      with_items:
-      - tmux
-      - vim
-      - gdb
-      - gdb-multiarch
-      - unzip
+      package:
+        name:
+        - tmux
+        - vim
+        - gdb
+        - gdb-multiarch
+        - unzip
+        state: present
       become: yes
 
     - name: Install dropbox
@@ -127,13 +131,10 @@
       become: yes
 
     - name: Install wireshark
-      apt:
-        name: wireshark
-      become: yes
-
-    - name: Install i3
-      apt:
-        name: i3
+      package:
+        name:
+          - wireshark
+        state: present
       become: yes
 
 # todo: git clone my config repo.
