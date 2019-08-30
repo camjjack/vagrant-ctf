@@ -24,7 +24,6 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
       vb.customize ["modifyvm", :id, "--usb", "on"]     
       vb.gui = true
-      vb.linked_clone = true
     end
     ubuntu.vm.network "public_network", bridge: "Default Switch"
     ubuntu.vm.provider "hyperv" do |hv|
@@ -59,7 +58,6 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--usb", "on"]    
       vb.customize ["modifyvm", :id, "--monitorcount", "1"]   
       vb.gui = true
-      vb.linked_clone = true
     end
     win.vm.network "public_network", bridge: "Default Switch"
     win.vm.provider "hyperv" do |hv|
@@ -89,7 +87,6 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--usb", "on"]    
       vb.customize ["modifyvm", :id, "--monitorcount", "1"]   
       vb.gui = true
-      vb.linked_clone = true
     end
     kali.vm.network "public_network", bridge: "Default Switch"
     kali.vm.provider "hyperv" do |hv|
