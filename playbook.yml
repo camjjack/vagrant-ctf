@@ -40,8 +40,13 @@
     - name: Source new PATH
       shell: '. {{ bash_rc }}'
     
-    - name: Configure git
-      shell: 'git config --global user.name {{ git_username }} && git config --global user.email {{ git_email }}'
+    - name: Configure git username
+      shell: 'git config --global user.name {{ git_username }}'
+      when: git_username is defined
+
+    - name: Configure git email
+      shell: 'git config --global user.email {{ git_email }}'
+      when: git_email is defined
 
   roles:
     - powerline
@@ -127,7 +132,11 @@
 
     - name: Install dropbox
       apt:
-        deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2015.10.28_amd64.deb
+        deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb
+      become: yes
+
+    - name: Install dropbox service
+      shell: dropbox start -i
       become: yes
 
     - name: Install wireshark

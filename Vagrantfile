@@ -16,8 +16,9 @@ Vagrant.configure("2") do |config|
     ubuntu.vm.synced_folder "host-share", "/media/host-share"
 
     ubuntu.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "4096"]
-      vb.customize ["modifyvm", :id, "--cpus", "2"]
+      vb.cpus = 2
+      vb.memory = 4096
+      vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxsvga"]
       vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
       vb.customize ["modifyvm", :id, "--vram", "256"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
@@ -49,8 +50,9 @@ Vagrant.configure("2") do |config|
     win.vm.provision "shell", inline: "Install-BoxStarterPackage -PackageName c:\\vagrant\\BoxstarterGist.txt"
 
     win.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "2048"]
-      vb.customize ["modifyvm", :id, "--cpus", "1"]
+      vb.cpus = 1
+      vb.memory = 2048
+      vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxsvga"]
       vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
       vb.customize ["modifyvm", :id, "--vram", "128"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
@@ -78,8 +80,9 @@ Vagrant.configure("2") do |config|
     kali.vm.synced_folder "host-share", "/media/host-share"
 
     kali.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "2048"]
-      vb.customize ["modifyvm", :id, "--cpus", "1"]
+      vb.cpus = 1
+      vb.memory = 2048
+      vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxsvga"]
       vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
       vb.customize ["modifyvm", :id, "--vram", "128"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]

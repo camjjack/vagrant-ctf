@@ -25,13 +25,19 @@ Build the required vagrant box file with packer
         ./build.ps1 --vagrantAdd
         cd ..
 
+# configuration
+        Modify `group_vars\private.yml` to include the following optional variables for ansible in ctf-ubuntu:
+            1. pia_username
+            1. pia_password
+            1. git_username
+            1. git_email
+
 # run
         vagrant up [ctf-ubuntu, ctf-win, ctf-kali]
 
 # notes / issues
 
 * Kali box file does not exist for hyper-v and i haven't created one yet. so `vagrant up` or `vagrant up ctf-kali` will not work on windows.
-* Ansible roles are not a solid as they could be. Some we keep reinstalling/downloading if vagrant run again with `--provision` rather than skipping if already complete
 * Firefox plugin installs would be nice
 * Windows packer build (in submodule) cant handle both virtualbox and hyper-v atm. Need to modify autounnatend.xml to handle different drives.
 
