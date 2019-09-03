@@ -2,7 +2,7 @@
 CTF environment provisioned by vagrant
 
 # Requirements
-* Virtualbox or Hyper-V
+* Virtualbox(linux host) or Hyper-V(Windows host)
 * vagrant
 * packer
 
@@ -21,8 +21,10 @@ Build the required vagrant box file with packer
         git submodule update --init --recursive
         cd packer-templates
         ./build.sh -a
-        or if windows:
+        ./build-windows.sh -a
+        or if windows host:
         ./build.ps1 --vagrantAdd
+        ./build-windows.ps1 --vagrantAdd
         cd ..
 
 # configuration
@@ -39,7 +41,6 @@ Build the required vagrant box file with packer
 
 * Kali box file does not exist for hyper-v and i haven't created one yet. so `vagrant up` or `vagrant up ctf-kali` will not work on windows.
 * Firefox plugin installs would be nice
-* Windows packer build (in submodule) cant handle both virtualbox and hyper-v atm. Need to modify autounnatend.xml to handle different drives.
 
 # Conditional Installs
 
@@ -56,6 +57,10 @@ Build the required vagrant box file with packer
     1. Requires ida-password.txt in host-share directory
 
  * Private Internet Access
+    1. Requires pia_username and pia_password to be set in group_vars/private.yml
+
+ * Git configuration (git is always installed)
+    1. Requires git_username and git_email to be set in group_vars/private.yml
 
 Will write configuration if pia_username set in ansible args.
 Use this format for `group_vars/private.yml` Note this file does not exist and is set in .gitignore so it isn't accidentaly commited to the repo.

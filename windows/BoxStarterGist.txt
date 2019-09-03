@@ -1,5 +1,7 @@
 Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives -EnableShowProtectedOSFiles -EnableShowFileExtensions -EnableShowFullPathInTitlebar
 DISM /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /norestart
+
+Enable-RemoteDesktop
 chocolatey feature enable -n=allowGlobalConfirmation
 choco install git
 choco install GoogleChrome
@@ -10,6 +12,7 @@ choco install vscode
 choco install vscode-icons
 choco install visualstudio2017community
 choco install sysinternals
+choco install dropbox
 refreshenv
 code --install-extension vscode-icons-team.vscode-icons
 code --install-extension ms-vscode.cpptools
@@ -20,10 +23,13 @@ code --install-extension eamodio.gitlens
 
 choco install pia
 c:\\vagrant\\setupPIA.ps1
-choco install dropbox
-choco install 010editor.install
-Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles}\Microsof VS Code\code.exe"
-Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
+
+choco install c:\\host-share\\chocolatey\\010editor\\010editor.nuspec
+
+#choco install --source="c:\\host-share\\chocolatey\\;https://chocolatey.org/api/v2" 010editor --version=9.0.2
 choco install --source="c:\\host-share\\chocolatey\\;https://chocolatey.org/api/v2" ghidra --version=9.0.4
 choco install c:\\host-share\\chocolatey\\binaryninja\\binaryninja.nuspec
+
+Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles}\Microsof VS Code\code.exe"
+Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
 chocolatey feature disable -n=allowGlobalConfirmation

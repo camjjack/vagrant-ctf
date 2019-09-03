@@ -21,9 +21,10 @@ $packageArgs = @{
   validExitCodes= @(0)
 }
 
-Install-ChocolateyInstallPackage @packageArgs
-
-if(Test-Path $LICENCE_FILE) {
-  mkdir -Path $BINARY_NINJA_USER_DIR
-  copy-item -Path $LICENCE_FILE -Destination $LICENCE_INSTALL_LOC
+if(Test-Path $INSTALLER_FILE) {
+  Install-ChocolateyInstallPackage @packageArgs
+  if(Test-Path $LICENCE_FILE) {
+    mkdir -Path $BINARY_NINJA_USER_DIR
+    copy-item -Path $LICENCE_FILE -Destination $LICENCE_INSTALL_LOC
+  }
 }
