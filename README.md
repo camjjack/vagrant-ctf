@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/camjjack/camjjack/_apis/build/status/camjjack.vagrant-ctf?branchName=master)](https://dev.azure.com/camjjack/camjjack/_build/latest?definitionId=1&branchName=master)
+
 # vagrant-ctf
 CTF environment provisioned by vagrant
 
