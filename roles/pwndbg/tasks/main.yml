@@ -1,13 +1,7 @@
 ---
 
 - name: get pwndbg
-  git:
+  git: # noqa 401
     repo: 'https://github.com/pwndbg/pwndbg'
     dest: '{{ tool_dir }}pwndbg'
-  register: gitclone
-
-- name: setup pwndbg
-  shell: ./setup.sh
-  args:
-    chdir: '{{ tool_dir }}pwndbg'
-  when: gitclone.changed
+  notify: setup pwndbg

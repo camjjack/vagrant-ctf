@@ -1,6 +1,6 @@
 ---
 # QEMU with MIPS/ARM - http://reverseengineering.stackexchange.com/questions/8829/cross-debugging-for-mips-elf-with-qemu-toolchain
-   
+
 - name: Install keystone dependencies
   package:
     name:
@@ -20,14 +20,14 @@
   become: yes
 
 - name: link qemu MIPS
-  file: 
+  file:
     path: /etc/qemu-binfmt/mipsel
     state: link
     src: /usr/mipsel-linux-gnu
   become: yes
 
 - name: link qemu ARM
-  file: 
+  file:
     path: /etc/qemu-binfmt/arm
     state: link
     src: /usr/arm-linux-gnueabihf

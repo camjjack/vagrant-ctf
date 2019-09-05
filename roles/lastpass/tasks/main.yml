@@ -10,9 +10,9 @@
     dest: /tmp/lplinux
     remote_src: yes
     creates: "/tmp/lplinux/install_lastpass.sh"
-    
+
 - name: Install lastpass
-  shell: './install_lastpass.sh'
+  command: './install_lastpass.sh'
   args:
     chdir: /tmp/lplinux/
     creates: '~/.lastpass'

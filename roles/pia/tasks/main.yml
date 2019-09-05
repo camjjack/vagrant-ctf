@@ -7,7 +7,7 @@
     checksum: '{{ pia_installer_checksum }}'
 
 - name: Install private internet access
-  shell: sh {{ pia_installer_script }}
+  command: sh {{ pia_installer_script }}
   args:
     chdir: '/tmp/'
     creates: /opt/piavpn

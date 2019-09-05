@@ -20,18 +20,8 @@
     - code
     state: present
   become: yes
-
+  notify: Installing vscode extensions
 
 - name: Pylint for vscode
   pip:
     name: pylint
-
-- name: Installing vscode extensions
-  shell: code --install-extension {{ item }}
-  with_items:
-  - ms-vscode.cpptools
-  - ms-python.python
-  - vscode-icons-team.vscode-icons
-  - donjayamanne.githistory
-  - ms-azuretools.vscode-docker
-  - eamodio.gitlens

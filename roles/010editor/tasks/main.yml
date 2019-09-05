@@ -5,9 +5,9 @@
     dest: /tmp/
     remote_src: yes
     creates: "/tmp/010EditorLinux{{ architecture }}Installer"
-    
+
 - name: Install 010Editor
-  shell: './010EditorLinux{{ architecture }}Installer --mode silent --prefix {{ tool_dir }}010editor/'
+  command: './010EditorLinux{{ architecture }}Installer --mode silent --prefix {{ tool_dir }}010editor/'
   args:
     chdir: /tmp/
     creates: '{{ tool_dir }}010editor/'
@@ -16,6 +16,5 @@
   lineinfile:
     path: '{{ bash_rc }}'
     line: 'PATH=$PATH:{{ tool_dir }}/010editor/'
-
-- name: Source new PATH
-  shell: '. {{ bash_rc }}'
+    state: present
+  notify: source bashrc

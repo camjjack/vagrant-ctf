@@ -11,7 +11,7 @@
     - openjdk-11-jre-headless
     state: present
   become: yes
- 
+
 - name: Get Ghidra
   unarchive:
     src: '{{ ghidra_zip }}'

@@ -4,26 +4,19 @@
 - include_role:
     name: nodejs
 
-- name: get CyberChef
-  git:
-    repo: 'https://github.com/gchq/CyberChef.git'
-    dest: '{{ tool_dir }}CyberChef'
-    force: yes
-    
-- name: Install CyberChef npm dependencies
-  npm:
-    path: '{{ tool_dir }}CyberChef'
-    
 - name: Install grunt
   npm:
     name: grunt-cli
     global: yes
-    state: latest
+    state: present
   become: yes
-    
-- name: Deploy CyberChef
-  shell: grunt prod
-  args:
-    chdir: '{{ tool_dir }}CyberChef'
-  environment:
-    NODE_OPTIONS: --max_old_space_size=2048
+
+- name: get CyberChef
+  git: # noqa 401
+    repo: 'https://github.com/gchq/CyberChef.git'
+    dest: '{{ tool_dir }}CyberChef'
+
+- name: Install CyberChef npm dependencies
+  npm:
+    path: '{{ tool_dir }}CyberChef'
+  notify: Deploy CyberChef

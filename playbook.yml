@@ -15,7 +15,6 @@
         name:
         - git
         - python-pip
-        state: present
       become: yes
 
     - name: Basic requirements
@@ -23,9 +22,8 @@
         name:
         - python3
         - python3-pip
-        state: present
       become: yes
-    
+
     - name: Make tools and bin dir
       file:
         path: '{{ tool_bin_dir }}'
@@ -36,16 +34,20 @@
       lineinfile:
         path: '{{ bash_rc }}'
         line: 'PATH=$PATH:{{ tool_bin_dir }}'
+      notify: source bashrc
 
-    - name: Source new PATH
-      shell: '. {{ bash_rc }}'
-    
     - name: Configure git username
-      shell: 'git config --global user.name {{ git_username }}'
+      git_config:
+        name: user.name
+        scope: global
+        value: '{{ git_username }}'
       when: git_username is defined
 
     - name: Configure git email
-      shell: 'git config --global user.email {{ git_email }}'
+      git_config:
+        name: user.email
+        scope: global
+        value: '{{ git_email }}'
       when: git_email is defined
 
   roles:
@@ -71,12 +73,12 @@
 
   tasks:
     - name: get radare2
-      git:
+      git: # noqa 401
         repo: 'https://github.com/radare/radare2'
         dest: '{{ tool_dir }}radare2'
 
     - name: setup radare2
-      shell: ./sys/install.sh
+      command: ./sys/install.sh
       args:
         chdir: '{{ tool_dir }}radare2'
         creates: '/usr/bin/radare2'
@@ -86,19 +88,16 @@
         name:
         - ruby
         - ruby-dev
-        state: present
       become: yes
 
     - name: Install onegadget
       gem:
         name: one_gadget
-        state: latest
       become: yes
 
     - name: Install onegadget
       gem:
         name: seccomp-tools
-        state: latest
       become: yes
 
     #- name: get unicorn
@@ -106,8 +105,17 @@
     #    name: unicorn
 
     # multilib
-    - name: dpkg add arch
-      shell: dpkg --add-architecture i386
+    - name: Check if i386 is enabled
+      shell: |
+        set -o pipefail
+        dpkg --print-foreign-architectures | grep i386
+      register: result_i386_check
+      changed_when: result_i386_check.rc == 1
+      failed_when: result_i386_check.rc > 1
+
+    - name: Enable i386 architecture
+      command: dpkg --add-architecture i386
+      when: result_i386_check.rc == 1
       become: yes
 
     - name: multilib
@@ -134,10 +142,7 @@
       apt:
         deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb
       become: yes
-
-    - name: Install dropbox service
-      shell: dropbox start -i
-      become: yes
+      notify: Install dropbox service
 
     - name: Install wireshark
       package:
@@ -149,3 +154,11 @@
 # todo: git clone my config repo.
 
 # todo: firefox addons and set search enging to duckduckgo
+
+  handlers:
+    - name: source bashrc
+      command: '. {{ bash_rc }}'
+
+    - name: Install dropbox service
+      command: dropbox start -i
+      become: yes

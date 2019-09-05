@@ -53,7 +53,7 @@ Vagrant.configure("2") do |config|
       vb.cpus = 1
       vb.memory = 2048
       vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxsvga"]
-      vb.customize ["modifyvm", :id, "--accelerate3d", "off"],
+      vb.customize ["modifyvm", :id, "--accelerate3d", "off"]
       vb.customize ["modifyvm", :id, "--accelerate2dvideo", "on"]
       vb.customize ["modifyvm", :id, "--vram", "128"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]

@@ -1,0 +1,10 @@
+---
+- name: Installing vscode extensions
+  command: code --install-extension {{ item }}
+  with_items:
+  - ms-vscode.cpptools
+  - ms-python.python
+  - vscode-icons-team.vscode-icons
+  - donjayamanne.githistory
+  - ms-azuretools.vscode-docker
+  - eamodio.gitlens

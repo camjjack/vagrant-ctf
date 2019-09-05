@@ -7,12 +7,12 @@
   become: yes
 
 - name: socat ctfrunner
-  git:
+  git: # noqa 401
     repo: 'https://github.com/camjjack/ctfrun.git'
     dest: '{{ tool_dir }}ctfrun'
 
 - name: link socat ctfrunner
-  file: 
+  file:
     path: '{{ tool_bin_dir }}/ctfrun'
     state: link
     src: '{{ tool_dir }}ctfrun/ctfrun'

@@ -1,4 +1,4 @@
----    
+---
 - name: Install keystone dependencies
   package:
     name:
@@ -7,7 +7,7 @@
   become: yes
 
 - name: get keystone
-  git:
+  git: # noqa 401
     repo: 'https://github.com/keystone-engine/keystone.git'
     dest: '{{ tool_dir }}keystone'
 
@@ -16,10 +16,7 @@
     src: keystone.conf.j2
     dest: /etc/ld.so.conf.d/keystone.conf
   become: yes
-
-- name: run ldconfig
-  shell: ldconfig
-  become: yes
+  notify: run ldconfig
 
 - name: Make keystone build dir
   file:
@@ -27,13 +24,13 @@
     state: directory
 
 - name: Make keystone shared library
-  shell:  ../make-share.sh
+  command:  ../make-share.sh
   args:
     chdir: '{{ tool_dir }}keystone/build'
     creates: '{{ tool_dir }}keystone/build/kstool'
 
 - name: Install keystone
-  shell: make install
+  command: make install
   args:
     chdir: '{{ tool_dir }}/keystone/build'
     creates: '/usr/local/bin/kstool'
