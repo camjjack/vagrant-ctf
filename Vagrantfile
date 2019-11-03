@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
       hv.vm_integration_services = {
         guest_service_interface: true
       }
-      hv.enhanced_session_transport_type = "HvSocket"
+      hv.enable_enhanced_session_mode = true
     end
   end
 
@@ -68,7 +68,8 @@ Vagrant.configure("2") do |config|
       hv.vm_integration_services = {
         guest_service_interface: true
       }
-      #hv.enhanced_session_transport_type = "HvSocket"
+      hv.enable_enhanced_session_mode = true 
+      hv.gui = true
     end
   end
   config.vm.define "ctf-kali" do |kali|

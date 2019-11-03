@@ -23,21 +23,16 @@ Build the required vagrant box file with packer
         (linux)./setup.sh
         
         or if windows host:
-        cd packer-templates
-        ./build.ps1 --vagrantAdd
-        ./build-windows.ps1 --vagrantAdd
-        cd ..
+        (windows) .\setup.bat
 
 # configuration
 Modify `group_vars\private.yml` to include the following optional variables for ansible in ctf-ubuntu. Note this file does not exist and is set in .gitignore so it isn't accidentaly commited to the repo.
-
-
-        ---
-        pia_username: '<username_here>'
-        pia_password: '<password_here>'
-        git_username: '<username_here>'
-        git_email: '<email_here>'
-
+         
+         ---
+         pia_username: '<username_here>'
+         pia_password: '<password_here>'
+         git_username: '<username_here>'
+         git_email: '<email_here>'
 
 # Conditional Installs
 

@@ -16,3 +16,16 @@
   template:
     src: config.j2
     dest: '{{ i3_config_location }}'
+
+- name: Undo xrdp config for unity
+  replace:
+    path: /etc/xrdp/sesman.ini
+    regexp: 'startubuntu'
+    replace: 'startwm'
+  become: yes
+
+- name: Setup i3 as default window manager for sesman
+  lineinfile:
+    path: {{ home_dir }}.xsession
+    line: i3
+    create: yes

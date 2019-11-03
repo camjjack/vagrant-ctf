@@ -1,7 +1,7 @@
 ---
 pia_settings_dir: '{{ home_dir }}.pia_manager/data/'
 pia_settings: '{{ pia_settings_dir }}settings.json'
-pia_version: '1.0.2-02363'
+pia_version: '1.3.3-02880'
 pia_installer_checksum: "sha256:35e09165ba97a172a50f697199642b3bd8696cacf4ab4f9a4b01c96b10fc424a"
 pia_installer_base: 'https://installers.privateinternetaccess.com/download/'
 pia_installer_script: 'pia-linux-{{ pia_version }}.run'
