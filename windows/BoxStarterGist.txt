@@ -27,6 +27,7 @@ c:\\vagrant\\setupPIA.ps1
 choco install c:\\host-share\\chocolatey\\010editor\\010editor.nuspec
 choco install --source="c:\\host-share\\chocolatey\\;https://chocolatey.org/api/v2" ghidra --version=9.0.4
 choco install c:\\host-share\\chocolatey\\binaryninja\\binaryninja.nuspec
+choco install c:\\host-share\\chocolatey\\metasploit-framework\\metasploit-framework.nuspec
 
 Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles}\Microsof VS Code\code.exe"
 Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"

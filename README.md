@@ -18,11 +18,10 @@ Some things I do are:
 # setup
 Build the required vagrant box file with packer
 
-        git submodule update --init --recursive
-        cd packer-templates
-        ./build.sh -a
-        ./build-windows.sh -a
+        (linux)./setup.sh
+        
         or if windows host:
+        cd packer-templates
         ./build.ps1 --vagrantAdd
         ./build-windows.ps1 --vagrantAdd
         cd ..
@@ -65,3 +64,4 @@ Modify `group_vars\private.yml` to include the following optional variables for 
 1. Default user is vagrant
 1. Default password is vagrant
 1. Tools located in ~/tools/
+1. i3 wm is available
