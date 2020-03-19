@@ -95,7 +95,7 @@
         name: one_gadget
       become: yes
 
-    - name: Install onegadget
+    - name: Install seccomp-tools
       gem:
         name: seccomp-tools
       become: yes
@@ -150,6 +150,15 @@
           - wireshark
         state: present
       become: yes
+
+    - name: Install android RE tools
+      package:
+        name:
+          - androguard
+          - apktool
+        state: present
+      become: yes
+
 
 # todo: git clone my config repo.
 
