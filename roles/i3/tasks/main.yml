@@ -26,6 +26,6 @@
 
 - name: Setup i3 as default window manager for sesman
   lineinfile:
-    path: {{ home_dir }}.xsession
+    path: '{{ home_dir }}.xsession'
     line: i3
     create: yes

@@ -1,0 +1,22 @@
+---
+- name: Install Brave repo key
+  apt_key:
+    url: https://brave-browser-apt-release.s3.brave.com/brave-core.asc
+    id: 0BB75829C2D4E821
+    state: present
+  become: yes
+
+- name: Add Brave repository
+  apt_repository:
+    repo: 'deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com stable main'
+    filename: brave-browser-release
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Install Brave
+  package:
+    name:
+    - brave-browser
+    state: present
+  become: yes

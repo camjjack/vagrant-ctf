@@ -4,7 +4,6 @@
   get_url:
     url: '{{ pia_installer }}'
     dest: '/tmp/{{ pia_installer_script }}'
-    checksum: '{{ pia_installer_checksum }}'
 
 - name: Install private internet access
   command: sh {{ pia_installer_script }}

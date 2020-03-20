@@ -1,4 +1,4 @@
 ---
-ghidra_version: '9.1'
+ghidra_version: '9.1.2_PUBLIC'
 ghidra_dest: 'ghidra_{{ ghidra_version }}'
-ghidra_zip: 'https://ghidra-sre.org/ghidra_9.1_PUBLIC_20191023.zip'
+ghidra_zip: 'https://ghidra-sre.org/ghidra_{{ ghidra_version }}_20200212.zip'

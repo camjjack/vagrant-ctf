@@ -15,7 +15,7 @@ Some things I do are:
 * Always use private internet access for a vpn. (Other vpn services are available)
 * Use Dropbox to share ctf files between VMs. This is my persistant storage with all my previous ctf problems and solutions.
 * Do most of my work in the ubuntu VM. Kali for pen testing tools, and windows for when its required
-* For socat binaries I use the ctfrun script in the tools directory.
+* For socat binaries I use the ctfrun script in the tools directory - obsolute, now i use pwntools gdb.
 
 # setup
 Build the required vagrant box file with packer
@@ -53,6 +53,14 @@ Modify `group_vars\private.yml` to include the following optional variables for 
         vagrant up [ctf-ubuntu, ctf-win, ctf-kali]
 
 # notes / issues
+
+Main issue is lack of support in mainline vagrant for enhanced session mode in Hyper-V. I have submitted a pull request but it has not been actioned yet. You can get this experience by checkout out that vagrant branch. https://github.com/hashicorp/vagrant/pull/11014
+
+Once you have a vagrant dev environment with my mods you can use the version like this. (replace gemfile parameter with link to the checkout of the vagrant dev repo)
+
+```
+this_dir> bundle exec --gemfile=..\vagrant\Gemfile vagrant up ctf-ubuntu
+```
 
 * Kali box file does not exist for hyper-v and i haven't created one yet. so `vagrant up` or `vagrant up ctf-kali` will not work on windows.
 * Firefox plugin installs would be nice

@@ -64,7 +64,7 @@
     - cyberchef
     - jupyter
     - pia
-    - chrome
+    - brave
     - lastpass
     - ghidra
     - i3
@@ -100,15 +100,9 @@
         name: seccomp-tools
       become: yes
 
-    #- name: get unicorn
-    #  pip:
-    #    name: unicorn
-
     # multilib
     - name: Check if i386 is enabled
-      shell: |
-        set -o pipefail
-        dpkg --print-foreign-architectures | grep i386
+      shell: dpkg --print-foreign-architectures | grep i386
       register: result_i386_check
       changed_when: result_i386_check.rc == 1
       failed_when: result_i386_check.rc > 1
@@ -140,7 +134,7 @@
 
     - name: Install dropbox
       apt:
-        deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2019.02.14_amd64.deb
+        deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2020.03.04_amd64.deb
       become: yes
       notify: Install dropbox service
 
@@ -161,8 +155,6 @@
 
 
 # todo: git clone my config repo.
-
-# todo: firefox addons and set search enging to duckduckgo
 
   handlers:
     - name: source bashrc
