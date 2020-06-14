@@ -23,5 +23,11 @@
   notify: Installing vscode extensions
 
 - name: Pylint for vscode
-  pip:
-    name: pylint
+  command: 'pip3 install pylint'
+
+- name: Setup VSCode regolith configuration.
+  blockinfile:
+    path: '{{ home_dir }}.config/regolith/Xresources'
+    marker: '! {mark} Adding regolith VSCode config'
+    block: |
+      i3-wm.program.4: code

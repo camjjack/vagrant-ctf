@@ -157,9 +157,9 @@ bar {
 
 
 # user defined bindings
-bindsym $mod+c exec brave-browser
-bindsym $mod+z exec code
-bindsym $mod+b exec /home/vagrant/tools/binaryninja/binaryninja
+bindsym $mod+b exec brave-browser
+bindsym $mod+c exec code
+bindsym $mod+n exec /home/vagrant/tools/binaryninja/binaryninja
 bindsym $mod+g exec /home/vagrant/tools/ghidra_9.0.4/ghidraRun
 
 # Laptop keys
@@ -170,7 +170,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id "light -D 50 -s sysfs/backlig
 bindsym XF86MonBrightnessUp exec --no-startup-id "light -A 50 -s sysfs/backlight/intel_backlight"
 
 # Assign programs to specific workspace
-assign [class="brave-browser"] Browser
+assign [window_role="browser"] Browser
 for_window [class="Ghidra" title="CodeBrowser"] move container to workspace Ghidra-CodeBrowser
 for_window [class="Ghidra" title="Ghidra"] move container to workspace Ghidra-ToolChest
 assign [class="Ghidra"] Ghidra-CodeBrowser

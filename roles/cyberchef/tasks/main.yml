@@ -15,6 +15,7 @@
   git: # noqa 401
     repo: 'https://github.com/gchq/CyberChef.git'
     dest: '{{ tool_dir }}CyberChef'
+    force: yes
 
 - name: Install CyberChef npm dependencies
   npm:

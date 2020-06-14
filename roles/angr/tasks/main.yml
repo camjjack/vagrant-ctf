@@ -3,15 +3,13 @@
   package:
     name:
     - python3-dev
-    - libffi-dev
     - build-essential
     - libffi-dev
-    - build-essential
+    - python3-venv
+    - python3-pkg-resources
     - virtualenvwrapper
     state: present
   become: yes
 
-- name: get angr
-  pip:
-    name: angr
-  become: yes
+- name: Install angr
+  command: 'pip3 install angr'

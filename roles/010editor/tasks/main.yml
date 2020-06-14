@@ -17,4 +17,3 @@
     path: '{{ bash_rc }}'
     line: 'PATH=$PATH:{{ tool_dir }}/010editor/'
     state: present
-  notify: source bashrc

@@ -44,4 +44,25 @@
   lineinfile:
     path: '{{ bash_rc }}'
     line: 'PATH=$PATH:{{ tool_dir }}/binaryninja/'
-  notify: source bashrc
+
+- name: change mod+n entry to mod+u.
+  replace:
+    path: '{{ regolith_i3_config }}'
+    regexp: '^bindsym\ \$mod\+n\ exec\ \$i3-wm.program.notification_ui'
+    replace: 'bindsym $mod+u exec $i3-wm.program.notification_ui'
+
+- name: Setup BinaryNinja regolith configuration.
+  blockinfile:
+    path: '{{ regolith_i3_config }}'
+    marker: '# {mark} Adding BinaryNinja config'
+    block: |
+      assign [class="Binary Ninja"] Binja
+      bindsym $mod+n exec {{ tool_dir }}/binaryninja/binaryninja
+  when: regolith_i3_config is defined
+   
+- name: Setup BinaryNinja regolith window configuration.
+  blockinfile:
+    path: '{{ home_dir }}.config/regolith/Xresources'
+    marker: '! {mark} Adding regolith BinaryNinja config'
+    block: |
+      i3-wm.workspace.03.name:	"3:<span font_desc='Source Code Pro Medium 13'> Binja </span><span foreground='#2aa198'></span>"

@@ -14,12 +14,6 @@
       package:
         name:
         - git
-        - python-pip
-      become: yes
-
-    - name: Basic requirements
-      package:
-        name:
         - python3
         - python3-pip
       become: yes
@@ -34,7 +28,6 @@
       lineinfile:
         path: '{{ bash_rc }}'
         line: 'PATH=$PATH:{{ tool_bin_dir }}'
-      notify: source bashrc
 
     - name: Configure git username
       git_config:
@@ -52,6 +45,7 @@
 
   roles:
     - powerline
+    - regolith
     - binaryninja
     - angr
     - 010editor
@@ -63,11 +57,9 @@
     - qemu-multiarch
     - cyberchef
     - jupyter
-    - pia
     - brave
     - lastpass
     - ghidra
-    - i3
     - docker
     - k3s
 
@@ -157,9 +149,6 @@
 # todo: git clone my config repo.
 
   handlers:
-    - name: source bashrc
-      command: '. {{ bash_rc }}'
-
     - name: Install dropbox service
       command: dropbox start -i
       become: yes

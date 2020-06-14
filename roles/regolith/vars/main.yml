@@ -1,0 +1,3 @@
+---
+regolith_i3_config_dir: '{{ home_dir }}.config/regolith/i3/'
+regolith_i3_config: '{{ regolith_i3_config_dir }}config'

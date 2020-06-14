@@ -77,3 +77,11 @@
     dest: "{{ docker_compose_path }}"
     mode: 0755
   become: yes
+
+- name: Setup Docker regolith configuration.
+  blockinfile:
+    path: '{{ regolith_i3_config }}'
+    marker: '# {mark} Adding Docker config'
+    block: |
+      exec --no-startup-id dropbox start
+  when: regolith_i3_config is defined

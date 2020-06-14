@@ -20,3 +20,26 @@
     - brave-browser
     state: present
   become: yes
+
+- name: change mod+b entry to mod+z.
+  replace:
+    path: '{{ regolith_i3_config }}'
+    regexp: '^bindsym\ \$mod\+b\ exec\ \$i3-wm.program.bluetooth'
+    replace: 'bindsym $mod+z exec $i3-wm.program.bluetooth'
+
+- name: Setup Brave regolith configuration.
+  blockinfile:
+    path: '{{ regolith_i3_config }}'
+    marker: '# {mark} Adding Brave config'
+    block: |
+      assign [window_role="browser"] Browser
+      bindsym $mod+b exec brave-browser
+  when: regolith_i3_config is defined
+     
+- name: Setup Brave regolith window configuration.
+  blockinfile:
+    path: '{{ home_dir }}.config/regolith/Xresources'
+    marker: '! {mark} Adding regolith Brave config'
+    block: |
+      i3-wm.workspace.02.name:	"2:<span font_desc='Source Code Pro Medium 13'> Brave </span><span foreground='#2aa198'></span>"
+      i3-wm.program.1: brave-browser

@@ -2,13 +2,11 @@
 - name: Install pwntools dependencies
   package:
     name:
-    - python2.7
-    - python-dev
+    - python3-dev
     - libssl-dev
     - libffi-dev
     state: present
   become: yes
 
 - name: get pwntools
-  pip:
-    name: pwntools
+  command: 'pip3 install pwntools'

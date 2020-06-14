@@ -4,12 +4,13 @@
 Vagrant.configure("2") do |config|
   config.vm.define "ctf-ubuntu" do |ubuntu|
     
-    ubuntu.vm.box = "ubuntu-18.04"
+    ubuntu.vm.box = "ubuntu-20.04"
     ubuntu.vm.hostname = "invalid-ctf"
     ubuntu.ssh.username = 'vagrant'
     ubuntu.ssh.password = 'vagrant'
     ubuntu.ssh.forward_agent = true
     ubuntu.vm.provision "ansible_local" do |ansible|
+      ansible.install_mode = "pip3"
       ansible.playbook = "playbook.yml"
     end
 
@@ -26,6 +27,29 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--usb", "on"]     
       vb.gui = true
     end
+    ubuntu.vm.network "public_network", bridge: "Default Switch"
+    ubuntu.vm.provider "hyperv" do |hv|
+      hv.linked_clone = true
+      hv.vm_integration_services = {
+        guest_service_interface: true
+      }
+      hv.enable_enhanced_session_mode = true
+    end
+  end
+
+  config.vm.define "hackmanite" do |ubuntu|
+    
+    ubuntu.vm.box = "ubuntu-20.04"
+    ubuntu.vm.hostname = "hackmanite-pc"
+    ubuntu.ssh.username = 'vagrant'
+    ubuntu.ssh.password = 'vagrant'
+    ubuntu.ssh.forward_agent = true
+    ubuntu.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "playbook.yml"
+    end
+
+    ubuntu.vm.synced_folder "host-share", "/media/host-share"
+
     ubuntu.vm.network "public_network", bridge: "Default Switch"
     ubuntu.vm.provider "hyperv" do |hv|
       hv.linked_clone = true
@@ -68,8 +92,7 @@ Vagrant.configure("2") do |config|
       hv.vm_integration_services = {
         guest_service_interface: true
       }
-      hv.enable_enhanced_session_mode = true 
-      hv.gui = true
+      hv.enable_enhanced_session_mode = true
     end
   end
   config.vm.define "ctf-kali" do |kali|

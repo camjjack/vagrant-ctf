@@ -1,0 +1,51 @@
+---
+- name: add regolith ppa
+  become: yes
+  apt_repository: repo='ppa:regolith-linux/release'
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install regolith
+  package:
+    name:
+    - regolith-desktop
+    - i3xrocks-net-traffic
+    - i3xrocks-cpu-usage
+    - i3xrocks-time
+    - i3xrocks-battery
+    state: present
+  become: yes
+
+  
+- name: Setup regolith super key to alt.
+  blockinfile:
+    path: '{{ home_dir }}.config/regolith/Xresources'
+    marker: '! {mark} Adding regolith config'
+    block: |
+      i3-wm.mod: Mod1
+      i3-wm.alt: Mod4
+      i3-wm.program.2: gnome-terminal
+    create: yes
+
+
+- name: Ensure i3 configuration director exists
+  file:
+    path: regolith_i3_config_dir
+    state: directory
+
+- name: Creating user i3 configuration file.
+  command: 'cp /etc/regolith/i3/config {{ regolith_i3_config }}'
+  args:
+    creates: '{{ regolith_i3_config }}'
+    
+- name: Undo xrdp config for unity
+  replace:
+    path: /etc/xrdp/sesman.ini
+    regexp: 'startubuntu'
+    replace: 'startwm'
+  become: yes
+
+- name: Setup i3 as default window manager for sesman
+  lineinfile:
+    path: '{{ home_dir }}.xsession'
+    line: i3-gnome-flashback
+    create: yes

@@ -1,4 +1,5 @@
 ---
 - name: setup pwndbg
-  command: ./setup.sh
-  chdir: '{{ tool_dir }}pwndbg'
+  command: ./setup.sh.
+  args:
+    chdir: '{{ tool_dir }}pwndbg'
