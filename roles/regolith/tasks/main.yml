@@ -15,7 +15,6 @@
     state: present
   become: yes
 
-  
 - name: Setup regolith super key to alt.
   blockinfile:
     path: '{{ home_dir }}.config/regolith/Xresources'
@@ -36,7 +35,7 @@
   command: 'cp /etc/regolith/i3/config {{ regolith_i3_config }}'
   args:
     creates: '{{ regolith_i3_config }}'
-    
+
 - name: Undo xrdp config for unity
   replace:
     path: /etc/xrdp/sesman.ini

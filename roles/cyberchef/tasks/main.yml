@@ -1,7 +1,8 @@
 ---
 
 # Need node role to get nodejs 10.x rather than 8.x which is the default in Ubuntu
-- include_role:
+- name: Install nodejs
+  include_role:
     name: nodejs
 
 - name: Install grunt

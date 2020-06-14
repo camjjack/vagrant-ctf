@@ -35,7 +35,7 @@
       assign [window_role="browser"] Browser
       bindsym $mod+b exec brave-browser
   when: regolith_i3_config is defined
-     
+
 - name: Setup Brave regolith window configuration.
   blockinfile:
     path: '{{ home_dir }}.config/regolith/Xresources'
