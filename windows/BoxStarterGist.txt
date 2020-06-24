@@ -4,15 +4,17 @@ DISM /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /nor
 Enable-RemoteDesktop
 chocolatey feature enable -n=allowGlobalConfirmation
 choco install git
-choco install GoogleChrome
+choco install brave
 choco install wireshark
 choco install python3
 choco install python
 choco install vscode
 choco install vscode-icons
-choco install visualstudio2017community
+choco install visualstudio2019community --package-parameters "--allWorkloads --includeRecommended --includeOptional --passive --locale en-US"
 choco install sysinternals
 choco install dropbox
+choco install microsoft-windows-terminal
+choco install docker-desktop
 refreshenv
 code --install-extension vscode-icons-team.vscode-icons
 code --install-extension ms-vscode.cpptools
@@ -20,6 +22,8 @@ code --install-extension ms-python.python
 code --install-extension donjayamanne.githistory
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension eamodio.gitlens
+code --install-extension hashicorp.terraform
+code --install-extension streetsidesoftware.code-spell-checker
 
 choco install pia
 c:\\vagrant\\setupPIA.ps1

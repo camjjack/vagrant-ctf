@@ -74,16 +74,15 @@ Vagrant.configure("2") do |config|
     win.vm.provision "shell", inline: "Install-BoxStarterPackage -PackageName c:\\vagrant\\BoxstarterGist.txt -DisableReboots"
 
     win.vm.provider "virtualbox" do |vb|
-      vb.cpus = 1
-      vb.memory = 2048
+      vb.cpus = 4
+      vb.memory = 4096
       vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxsvga"]
-      vb.customize ["modifyvm", :id, "--accelerate3d", "off"]
-      vb.customize ["modifyvm", :id, "--accelerate2dvideo", "on"]
-      vb.customize ["modifyvm", :id, "--vram", "128"]
+      vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+      vb.customize ["modifyvm", :id, "--vram", "256"]
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
-      vb.customize ["modifyvm", :id, "--usb", "on"]    
-      vb.customize ["modifyvm", :id, "--monitorcount", "1"]   
+      vb.customize ["modifyvm", :id, "--usb", "on"]
+      vb.customize ["modifyvm", :id, "--hwvirtex", "on"]  
       vb.gui = true
     end
     win.vm.network "public_network", bridge: "Default Switch"
