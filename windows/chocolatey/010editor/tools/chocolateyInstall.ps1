@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop';
 
 $url64       = 'https://www.sweetscape.com/download/010EditorWin64Installer.exe'
-$checksum64  = '0876781B04C63B8D031E67F2A4B24370D6B7C00DFB2274A5567A2E85E3EFDA4A'
+$checksum64  = '6243561654D11962812352683DB3910C2A4BAEBD1D68A209D2D939F100E40966'
 
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName

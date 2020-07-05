@@ -10,7 +10,7 @@ choco install python3
 choco install python
 choco install vscode
 choco install vscode-icons
-choco install visualstudio2019community --package-parameters "--allWorkloads --includeRecommended --includeOptional --passive --locale en-US"
+choco install visualstudio2019community --package-parameters "--allWorkloads --includeRecommended --includeOptional --quiet --locale en-US"
 choco install sysinternals
 choco install dropbox
 choco install microsoft-windows-terminal
@@ -26,13 +26,14 @@ code --install-extension hashicorp.terraform
 code --install-extension streetsidesoftware.code-spell-checker
 
 choco install pia
-c:\\vagrant\\setupPIA.ps1
+c:\\vagrant\\windows\\setupPIA.ps1
 
-choco install c:\\host-share\\chocolatey\\010editor\\010editor.nuspec
-choco install --source="c:\\host-share\\chocolatey\\;https://chocolatey.org/api/v2" ghidra --version=9.0.4
-choco install c:\\host-share\\chocolatey\\binaryninja\\binaryninja.nuspec
-choco install c:\\host-share\\chocolatey\\metasploit-framework\\metasploit-framework.nuspec
+choco install c:\\vagrant\\windows\\chocolatey\\wsl2\\wsl2.nuspec
+choco install c:\\vagrant\\windows\\chocolatey\\010editor\\010editor.nuspec
+choco install --source="c:\\vagrant\\windows\\chocolatey\\;https://chocolatey.org/api/v2" ghidra --version=9.1.2
+choco install c:\\vagrant\\windows\\chocolatey\\binaryninja\\binaryninja.nuspec
+choco install c:\\vagrant\\windows\\chocolatey\\metasploit-framework\\metasploit-framework.nuspec
 
-Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles}\Microsof VS Code\code.exe"
-Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe"
+Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles}\Microsoft VS Code\Code.exe"
+Install-ChocolateyPinnedTaskBarItem "${env:localappdata}\BraveSoftware\Brave-Browser\Application\brave.exe"
 chocolatey feature disable -n=allowGlobalConfirmation

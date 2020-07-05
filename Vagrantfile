@@ -64,18 +64,13 @@ Vagrant.configure("2") do |config|
     win.vm.box = "windows-10"
     win.vm.hostname = "invalid-ctf-win"
     win.vm.communicator = "winrm"
-    win.vm.provision "file", source: "windows", destination: "c:\\vagrant"
-    win.vm.provision "file", source: "host-share", destination: "c:\\host-share"
-    win.vm.provision "file", source: "chocolatey", destination: "c:\\host-share"
-    win.vm.provision "file", source: "group_vars", destination: "c:\\host-share"
-    win.vm.provision "file", source: "windows/BoxStarterGist.txt", destination: "c:\\vagrant\\BoxStarterGist.txt"
     win.vm.provision "shell", path: "windows/installChocolatey.ps1"
     win.vm.provision "shell", path: "windows/installBoxStarter.bat"
-    win.vm.provision "shell", inline: "Install-BoxStarterPackage -PackageName c:\\vagrant\\BoxstarterGist.txt -DisableReboots"
+    win.vm.provision "shell", inline: "Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGist.txt -DisableReboots"
 
     win.vm.provider "virtualbox" do |vb|
       vb.cpus = 4
-      vb.memory = 4096
+      vb.memory = 4098
       vb.customize ["modifyvm", :id, "--graphicscontroller", "vboxsvga"]
       vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
       vb.customize ["modifyvm", :id, "--vram", "256"]
@@ -88,9 +83,12 @@ Vagrant.configure("2") do |config|
     win.vm.network "public_network", bridge: "Default Switch"
     win.vm.provider "hyperv" do |hv|
       hv.linked_clone = true
+      hv.cpus = 4
+      hv.maxmemory = 8096
       hv.vm_integration_services = {
         guest_service_interface: true
       }
+      hv.enable_virtualization_extensions = true
       hv.enable_enhanced_session_mode = true
     end
   end

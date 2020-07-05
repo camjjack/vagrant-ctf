@@ -1,7 +1,7 @@
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Install-Module -Force powershell-yaml
 
-$var_file = "C:\host-share\private.yml"
+$var_file = "C:\vagrant\group_vars\private.yml"
 if(Test-Path $var_file) {
     Write-Output "Private Internet Access data exists, configuring..."
     $private_data = Get-Content $var_file | Out-String

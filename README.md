@@ -56,14 +56,21 @@ Modify `group_vars\private.yml` to include the following optional variables for 
 
 Main issue is lack of support in mainline vagrant for enhanced session mode in Hyper-V. I have submitted a pull request but it has not been actioned yet. You can get this experience by checkout out that vagrant branch. https://github.com/hashicorp/vagrant/pull/11014
 
-Once you have a vagrant dev environment with my mods you can use the version like this. (replace gemfile parameter with link to the checkout of the vagrant dev repo)
+Make sure you have ruby 2.6 or later installed. Tested with 2.6.6
+
+You also need bsdtar. For this i installed Vagrant via the installer then copied the included bsdtar to `C:\Windows\System32`. The default location is `C:\HashiCorp\Vagrant\embedded\mingw64\bin\bsdtar.exe`
 
 ```
-this_dir> bundle exec --gemfile=..\vagrant\Gemfile vagrant up ctf-ubuntu
+this_dir> pushd ..
+parent_dir> git clone --single-branch --branch hyper-v-enhanced-session-transport-type git@github.com:camjjack/vagrant.git
+parent_dir> cd vagrant
+vagrant_dir> bundle install
+vagrant_dir> bundle --binstubs exec
+parent_dir> popd
+this_dir>ruby ..\vagrant\exec\vagrant up ctf-ubuntu
 ```
 
 * Kali box file does not exist for hyper-v and i haven't created one yet. so `vagrant up` or `vagrant up ctf-kali` will not work on windows.
-* Firefox plugin installs would be nice
 
 # ctf-ubuntu
 1. Default user is vagrant

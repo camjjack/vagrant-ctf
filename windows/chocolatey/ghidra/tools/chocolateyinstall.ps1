@@ -1,7 +1,7 @@
 ﻿
 $ErrorActionPreference = 'Stop'; # stop on all errors
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$workdir = Join-Path -Path $toolsDir -ChildPath 'ghidra_9.0.4'
+$workdir = Join-Path -Path $toolsDir -ChildPath 'ghidra_9.1.2'
 $target = Join-Path -Path $workdir -ChildPath 'ghidraRun.bat'
 $icon = Join-Path -Path $workdir -ChildPath 'support/ghidra.ico'
  
@@ -10,8 +10,8 @@ $shortcut = Join-Path ([System.Environment]::GetFolderPath($shortcutdir)) 'Ghidr
  
 Install-ChocolateyZipPackage `
     -PackageName 'ghidra' `
-    -Url 'https://ghidra-sre.org/ghidra_9.0.4_PUBLIC_20190516.zip' `
-    -Checksum 'a50d0cd475d9377332811eeae66e94bdc9e7d88e58477c527e9c6b78caec18bf' `
+    -Url 'https://ghidra-sre.org/ghidra_9.1.2_PUBLIC_20200212.zip' `
+    -Checksum 'ebe3fa4e1afd7d97650990b27777bb78bd0427e8e70c1d0ee042aeb52decac61' `
     -ChecksumType 'SHA256' `
     -UnzipLocation $toolsDir
  
