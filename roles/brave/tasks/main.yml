@@ -41,5 +41,5 @@
     path: '{{ home_dir }}.config/regolith/Xresources'
     marker: '! {mark} Adding regolith Brave config'
     block: |
-      i3-wm.workspace.02.name:	"2:<span font_desc='Source Code Pro Medium 13'> Brave </span><span foreground='#2aa198'></span>"
+      i3-wm.workspace.02.name:  "2:<span font_desc='Source Code Pro Medium 13'> Brave </span><span foreground='#2aa198'></span>"
       i3-wm.program.1: brave-browser

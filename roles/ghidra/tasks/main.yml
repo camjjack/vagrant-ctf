@@ -37,13 +37,11 @@
       bindsym $mod+g exec {{ tool_dir }}{{ ghidra_dest }}/ghidraRun
       assign [class="Ghidra"] Ghidra-CodeBrowser
   when: regolith_i3_config is defined
- 
+
 - name: Setup Ghidra regolith window configuration.
   blockinfile:
     path: '{{ home_dir }}.config/regolith/Xresources'
     marker: '! {mark} Adding regolith Ghidra config'
     block: |
-      i3-wm.workspace.04.name:	"4:<span font_desc='Source Code Pro Medium 13'> Ghidra-ToolChest </span><span foreground='#2aa198'></span>"
-      i3-wm.workspace.05.name:	"5:<span font_desc='Source Code Pro Medium 13'> Ghidra-CodeBrowser </span><span foreground='#2aa198'></span>"
-
-  
+      i3-wm.workspace.04.name:  "4:<span font_desc='Source Code Pro Medium 13'> Ghidra-ToolChest </span><span foreground='#2aa198'></span>"
+      i3-wm.workspace.05.name:  "5:<span font_desc='Source Code Pro Medium 13'> Ghidra-CodeBrowser </span><span foreground='#2aa198'></span>"

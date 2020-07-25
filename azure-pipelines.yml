@@ -13,5 +13,5 @@ steps:
   - script: pip install ansible-lint
     displayName: 'Install ansible-lint'
 
-  - script: ansible-lint playbook.yml
+  - script: ansible-lint -x 301 playbook.yml
     displayName: 'Run ansible lint'

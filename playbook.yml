@@ -94,7 +94,11 @@
 
     # multilib
     - name: Check if i386 is enabled
-      shell: dpkg --print-foreign-architectures | grep i386
+      shell: |
+        set -o pipefail
+        dpkg --print-foreign-architectures | grep i386
+      args:
+        executable: /bin/bash
       register: result_i386_check
       changed_when: result_i386_check.rc == 1
       failed_when: result_i386_check.rc > 1

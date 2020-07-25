@@ -1,0 +1,21 @@
+---
+- name: Install OpenVPN repo key
+  apt_key:
+    url: https://swupdate.openvpn.net/repos/repo-public.gpg
+    state: present
+  become: yes
+
+- name: Add OpenVPN repository
+  apt_repository:
+    repo: 'deb http://build.openvpn.net/debian/openvpn/stable {{ ansible_distribution_release }} main'
+    filename: openvpn-release
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Install OpenVPN
+  package:
+    name:
+    - openvpn
+    state: present
+  become: yes
