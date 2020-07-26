@@ -38,9 +38,9 @@ jobs:
     displayName: 'Copy Chocolatey files to expected location'
 
   - powershell: ./windows/installChocolatey.ps1
-    displayName: 'Install Chocolatey '
+    displayName: 'Install Chocolatey'
 
-  - shell: ./windows/installBoxStarter.bat
+  - powershell: ./windows/installBoxStarter.bat
     displayName: 'Install Boxstarter'
 
   - powershell: Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGist.txt -DisableReboots
