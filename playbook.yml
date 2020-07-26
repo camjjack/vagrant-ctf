@@ -49,10 +49,10 @@
     # - binaryninja
     # - angr
     # - 010editor
-    - vscode
+    # - vscode
     # - keystone
     - pwndbg
-    # - pwntools
+    - pwntools
     # - ctfrun
     # - qemu-multiarch
     # - cyberchef

@@ -26,9 +26,6 @@
   pip:
     name: pylint
 
-- name: testing pylint
-  command: pylint -h
-
 - name: Setup VSCode regolith configuration.
   blockinfile:
     path: '{{ home_dir }}.config/regolith/Xresources'

@@ -9,4 +9,8 @@
   become: yes
 
 - name: get pwntools
-  command: 'pip3 install pwntools'
+  pip:
+    name: pwntools
+
+- name: testing pwntools
+  command: python3 -c "from pwn import pwn"
