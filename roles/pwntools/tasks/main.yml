@@ -13,4 +13,7 @@
     name: pwntools
 
 - name: testing pwntools
-  command: python3 -c "from pwn import pwn"
+  command: |
+  export TERM=linux
+  export TERMINFO=/etc/terminfo
+  python3 -c "from pwn import pwn"
