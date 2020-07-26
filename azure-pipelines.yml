@@ -19,13 +19,14 @@ jobs:
       displayName: 'Run ansible lint'
 
     - script: |
-        sudo useradd vagrant -m -G sudo
+        sudo useradd vagrant -m -G sudo -g vsts
         echo vagrant:vagrant | sudo chpasswd
         sudo cat /etc/sudoers
+        sudo cat /etc/sudoers.d/vsts
         whoami
       displayName: 'Create vagrant user'
 
-    - script: sudo su - vagrant -c "ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 playbook.yml"
+    - script: sudo su vagrant -c "ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 playbook.yml"
       displayName: 'Run ansible'
       
 - job: Windows
@@ -38,13 +39,13 @@ jobs:
 
   - powershell: |
       mkdir C:\vagrant\
-      Copy-Item "windows" -Destination "C:\vagrant\"
+      Copy-Item "windows" -Destination "C:\vagrant\ -Recurse"
     displayName: 'Copy Chocolatey files to expected location'
 
-  - powershell: ls "C:\vagrant\""
+  - powershell: ls "C:\vagrant\"
     displayName: 'ls vagrant'
 
-  - powershell: ls "C:\vagrant\windows\""
+  - powershell: ls "C:\vagrant\windows\"
     displayName: 'ls Chocolatey files'
 
   - powershell: ./windows/installChocolatey.ps1
