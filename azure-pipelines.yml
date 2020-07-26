@@ -22,7 +22,7 @@ jobs:
       displayName: 'Run ansible lint'
 
     - script: |
-        useradd vagrant -m
+        sudo useradd vagrant -m
         echo vagrant:vagrant | sudo chpasswd
       displayName: 'Create vagrant user'
 
@@ -49,6 +49,6 @@ jobs:
     displayName: 'Install Boxstarter'
 
   - powershell: |
-      Import-Module Boxstarter.Chocolatey
-      Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGist.txt -DisableReboots
+      Import-Module C:\ProgramData\Boxstarter\Boxstarter.Chocolatey
+      Install-BoxStarterPackage -PackageName c:\vagrant\windows\BoxstarterGist.txt -DisableReboots
     displayName: 'Run BoxStarter'
