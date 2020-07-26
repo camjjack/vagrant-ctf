@@ -21,6 +21,11 @@ jobs:
     - script: ansible-lint -x 301 playbook.yml
       displayName: 'Run ansible lint'
 
+    - script: |
+        useradd vagrant -m
+        echo vagrant:vagrant | sudo chpasswd
+      displayName: 'Create vagrant user'
+
     - script: ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 playbook.yml
       displayName: 'Run ansible'
       
@@ -43,5 +48,7 @@ jobs:
   - powershell: ./windows/installBoxStarter.bat
     displayName: 'Install Boxstarter'
 
-  - powershell: Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGist.txt -DisableReboots
+  - powershell: |
+      Import-Module Boxstarter.Chocolatey
+      Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGist.txt -DisableReboots
     displayName: 'Run BoxStarter'
