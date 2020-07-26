@@ -109,11 +109,12 @@
       become: yes
 
     - name: multilib
-      package:
+      apt:
         name:
         - libc6:i386
         - libncurses5:i386
         - libstdc++6:i386
+        update_cache: yes
         state: present
       become: yes
 
