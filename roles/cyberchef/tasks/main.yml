@@ -8,10 +8,9 @@
   become: yes
 
 - name: Install grunt
-  package:
-    name:
-    - node-grunt-cli
-    state: present
+  npm:
+    name: grunt-cli
+    global: true
   become: yes
 
 - name: get CyberChef
