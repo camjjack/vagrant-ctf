@@ -21,12 +21,10 @@ jobs:
     - script: |
         sudo useradd vagrant -m -G sudo -g vsts
         echo vagrant:vagrant | sudo chpasswd
-        sudo cat /etc/sudoers
-        sudo cat /etc/sudoers.d/vsts
-        whoami
+        sudo chown -R vagrant:vsts /home/vagrant
       displayName: 'Create vagrant user'
 
-    - script: sudo su vagrant -c "ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 playbook.yml"
+    - script: ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 playbook.yml
       displayName: 'Run ansible'
       
 - job: Windows
@@ -39,7 +37,7 @@ jobs:
 
   - powershell: |
       mkdir C:\vagrant\
-      Copy-Item "windows" -Destination "C:\vagrant\ -Recurse"
+      Copy-Item "windows" -Destination "C:\vagrant\" -Recurse
     displayName: 'Copy Chocolatey files to expected location'
 
   - powershell: ls "C:\vagrant\"
