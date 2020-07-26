@@ -18,12 +18,11 @@ jobs:
     - script: ansible-lint -x 301 playbook.yml
       displayName: 'Run ansible lint'
 
-    - script: ansible-lint -x 301 playbook.yml
-      displayName: 'Run ansible lint'
-
     - script: |
-        sudo useradd vagrant -m
+        sudo useradd vagrant -m -G sudo
         echo vagrant:vagrant | sudo chpasswd
+        sudo cat /etc/passwd
+        whoami
       displayName: 'Create vagrant user'
 
     - script: ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 playbook.yml
@@ -39,7 +38,8 @@ jobs:
 
   - powershell: |
       mkdir C:\vagrant\
-      Copy-Item "windows" -Destination "C:\vagrant\windows"
+      Copy-Item "windows" -Destination "C:\vagrant\"
+      ls C:\vagrant\windows\
     displayName: 'Copy Chocolatey files to expected location'
 
   - powershell: ./windows/installChocolatey.ps1
@@ -50,5 +50,5 @@ jobs:
 
   - powershell: |
       Import-Module C:\ProgramData\Boxstarter\Boxstarter.Chocolatey
-      Install-BoxStarterPackage -PackageName c:\vagrant\windows\BoxstarterGist.txt -DisableReboots
+      Install-BoxStarterPackage -PackageName "c:\vagrant\windows\BoxstarterGist.txt" -DisableReboots
     displayName: 'Run BoxStarter'
