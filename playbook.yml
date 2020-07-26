@@ -44,79 +44,79 @@
       when: git_email is defined
 
   roles:
-    # - powerline
-    # - regolith
-    # - binaryninja
-    # - angr
-    # - 010editor
-    # - vscode
-    # - keystone
+    - powerline
+    - regolith
+    - binaryninja
+    - angr
+    - 010editor
+    - vscode
+    - keystone
     - pwndbg
     - pwntools
-    # - ctfrun
-    # - qemu-multiarch
-    # - cyberchef
-    # - jupyter
-    # - brave
-    # - lastpass
-    # - ghidra
-    # - docker
-    # - k3s
+    - ctfrun
+    - qemu-multiarch
+    - cyberchef
+    - jupyter
+    - brave
+    - lastpass
+    - ghidra
+    - docker
+    - k3s
 
   tasks:
-    # - name: get radare2
-    #   git: # noqa 401
-    #     repo: 'https://github.com/radare/radare2'
-    #     dest: '{{ tool_dir }}radare2'
+    - name: get radare2
+      git: # noqa 401
+        repo: 'https://github.com/radare/radare2'
+        dest: '{{ tool_dir }}radare2'
 
-    # - name: setup radare2
-    #   command: ./sys/install.sh
-    #   args:
-    #     chdir: '{{ tool_dir }}radare2'
-    #     creates: '/usr/bin/radare2'
+    - name: setup radare2
+      command: ./sys/install.sh
+      args:
+        chdir: '{{ tool_dir }}radare2'
+        creates: '/usr/bin/radare2'
 
-    # - name: Install Ruby
-    #   package:
-    #     name:
-    #     - ruby
-    #     - ruby-dev
-    #   become: yes
+    - name: Install Ruby
+      package:
+        name:
+        - ruby
+        - ruby-dev
+      become: yes
 
-    # - name: Install onegadget
-    #   gem:
-    #     name: one_gadget
-    #   become: yes
+    - name: Install onegadget
+      gem:
+        name: one_gadget
+      become: yes
 
-    # - name: Install seccomp-tools
-    #   gem:
-    #     name: seccomp-tools
-    #   become: yes
+    - name: Install seccomp-tools
+      gem:
+        name: seccomp-tools
+      become: yes
 
     # multilib
-    # - name: Check if i386 is enabled
-    #   shell: |
-    #     set -o pipefail
-    #     dpkg --print-foreign-architectures | grep i386
-    #   args:
-    #     executable: /bin/bash
-    #   register: result_i386_check
-    #   changed_when: result_i386_check.rc == 1
-    #   failed_when: result_i386_check.rc > 1
+    - name: Check if i386 is enabled
+      shell: |
+        set -o pipefail
+        dpkg --print-foreign-architectures | grep i386
+      args:
+        executable: /bin/bash
+      register: result_i386_check
+      changed_when: result_i386_check.rc == 1
+      failed_when: result_i386_check.rc > 1
 
-    # - name: Enable i386 architecture
-    #   command: dpkg --add-architecture i386
-    #   when: result_i386_check.rc == 1
-    #   become: yes
+    - name: Enable i386 architecture
+      command: dpkg --add-architecture i386
+      when: result_i386_check.rc == 1
+      become: yes
 
-    # - name: multilib
-    #   apt:
-    #     name:
-    #     - libc6:i386
-    #     - libncurses5:i386
-    #     - libstdc++6:i386
-    #     update_cache: yes
-    #     state: present
-    #   become: yes
+    - name: multilib
+      apt:
+        name:
+        - libc6:i386
+        - libncurses5:i386
+        - libstdc++6:i386
+        update_cache: yes
+        state: present
+      become: yes
 
     - name: Installing default tools
       package:
@@ -129,27 +129,26 @@
         state: present
       become: yes
 
-    # - name: Install dropbox
-    #   apt:
-    #     deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2020.03.04_amd64.deb
-    #   become: yes
-    #   notify: Install dropbox service
+    - name: Install dropbox
+      apt:
+        deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2020.03.04_amd64.deb
+      become: yes
+      notify: Install dropbox service
 
-    # - name: Install wireshark
-    #   package:
-    #     name:
-    #       - wireshark
-    #     state: present
-    #   become: yes
+    - name: Install wireshark
+      package:
+        name:
+          - wireshark
+        state: present
+      become: yes
 
-    # - name: Install android RE tools
-    #   package:
-    #     name:
-    #       - androguard
-    #       - apktool
-    #     state: present
-    #   become: yes
-
+    - name: Install android RE tools
+      package:
+        name:
+          - androguard
+          - apktool
+        state: present
+      become: yes
 
 # todo: git clone my config repo.
 
