@@ -33,13 +33,13 @@
     update_cache: true
   become: yes
 
-
 - name: Install Docker.
   package:
-    name: docker-ce
+    name:
+      - docker-ce
+      - python3-docker
     state: present
   become: yes
-
 
 - name: Ensure Docker is started and enabled at boot.
   service:

@@ -55,7 +55,6 @@
     - pwntools
     - ctfrun
     - qemu-multiarch
-    - cyberchef
     - jupyter
     - brave
     - lastpass
@@ -148,6 +147,14 @@
           - androguard
           - apktool
         state: present
+      become: yes
+
+    - name: Cyberchef
+      docker_container:
+        name: cyberchef
+        image: mpepping/cyberchef
+        ports:
+        - "8000:8000"
       become: yes
 
 # todo: git clone my config repo.
