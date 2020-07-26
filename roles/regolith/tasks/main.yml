@@ -26,9 +26,9 @@
     create: yes
 
 
-- name: Ensure i3 configuration director exists
+- name: Ensure i3 configuration directory exists
   file:
-    path: regolith_i3_config_dir
+    path: '{{ regolith_i3_config_dir }}'
     state: directory
 
 - name: Creating user i3 configuration file.
