@@ -23,7 +23,8 @@
   notify: Installing vscode extensions
 
 - name: Pylint for vscode
-  command: 'pip3 install pylint'
+  pip:
+    name: pylint
 
 - name: Setup VSCode regolith configuration.
   blockinfile:

@@ -17,12 +17,18 @@
     src: config.j2
     dest: '{{ i3_config_location }}'
 
+- name: Check for xrdp config
+  stat:
+    path: /etc/xrdp/sesman.ini
+  register: xrdp_sesman
+
 - name: Undo xrdp config for unity
   replace:
     path: /etc/xrdp/sesman.ini
     regexp: 'startubuntu'
     replace: 'startwm'
   become: yes
+  when: xrdp_sesman.stat.exists
 
 - name: Setup i3 as default window manager for sesman
   lineinfile:

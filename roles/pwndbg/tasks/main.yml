@@ -1,5 +1,4 @@
 ---
-
 - name: get pwndbg
   git: # noqa 401
     repo: 'https://github.com/pwndbg/pwndbg'

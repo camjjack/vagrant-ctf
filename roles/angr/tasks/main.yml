@@ -12,4 +12,5 @@
   become: yes
 
 - name: Install angr
-  command: 'pip3 install angr'
+  pip:
+    name: angr

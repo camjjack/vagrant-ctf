@@ -1,7 +1,7 @@
 ﻿
 $ErrorActionPreference = 'Stop'; # stop on all errors
 $toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
-$workdir = Join-Path -Path $toolsDir -ChildPath 'ghidra_9.1.2'
+$workdir = Join-Path -Path $toolsDir -ChildPath 'ghidra_9.1.2_PUBLIC'
 $target = Join-Path -Path $workdir -ChildPath 'ghidraRun.bat'
 $icon = Join-Path -Path $workdir -ChildPath 'support/ghidra.ico'
  

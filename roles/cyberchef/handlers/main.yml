@@ -1,7 +1,0 @@
----
-- name: Deploy CyberChef
-  command: 'grunt prod'
-  args:
-    chdir: '{{ tool_dir }}CyberChef'
-  environment:
-    NODE_OPTIONS: --max_old_space_size=2048

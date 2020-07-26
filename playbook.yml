@@ -55,7 +55,6 @@
     - pwntools
     - ctfrun
     - qemu-multiarch
-    - cyberchef
     - jupyter
     - brave
     - lastpass
@@ -109,11 +108,12 @@
       become: yes
 
     - name: multilib
-      package:
+      apt:
         name:
         - libc6:i386
         - libncurses5:i386
         - libstdc++6:i386
+        update_cache: yes
         state: present
       become: yes
 
@@ -149,6 +149,13 @@
         state: present
       become: yes
 
+    - name: Cyberchef
+      docker_container:
+        name: cyberchef
+        image: mpepping/cyberchef
+        ports:
+        - "8000:8000"
+      become: yes
 
 # todo: git clone my config repo.
 

@@ -26,9 +26,9 @@
     create: yes
 
 
-- name: Ensure i3 configuration director exists
+- name: Ensure i3 configuration directory exists
   file:
-    path: regolith_i3_config_dir
+    path: '{{ regolith_i3_config_dir }}'
     state: directory
 
 - name: Creating user i3 configuration file.
@@ -36,12 +36,18 @@
   args:
     creates: '{{ regolith_i3_config }}'
 
+- name: Check for xrdp config
+  stat:
+    path: /etc/xrdp/sesman.ini
+  register: xrdp_sesman
+
 - name: Undo xrdp config for unity
   replace:
     path: /etc/xrdp/sesman.ini
     regexp: 'startubuntu'
     replace: 'startwm'
   become: yes
+  when: xrdp_sesman.stat.exists
 
 - name: Setup i3 as default window manager for sesman
   lineinfile:

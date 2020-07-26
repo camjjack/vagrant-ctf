@@ -1,17 +1,63 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+jobs:
+- job: Linux
+  pool:
+    vmImage: 'Ubuntu-20.04'
 
-steps:
-  - task: UsePythonVersion@0
-    displayName: 'Use Python 3.7'
-    inputs:
-      versionSpec: '3.7'
+  steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.7'
+      inputs:
+        versionSpec: '3.7'
 
-  - script: pip install ansible-lint
-    displayName: 'Install ansible-lint'
+    - script: pip install ansible ansible-lint
+      displayName: 'Install ansible and ansible-lint'
 
-  - script: ansible-lint -x 301 playbook.yml
-    displayName: 'Run ansible lint'
+    - script: ansible-lint -x 301 playbook.yml
+      displayName: 'Run ansible lint'
+
+    - script: |
+        sudo useradd vagrant -m -G sudo -g vsts
+        echo vagrant:vagrant | sudo chpasswd
+        sudo chown -R vsts:vsts /home/vagrant
+      displayName: 'Create vagrant user'
+
+    - script: ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 playbook.yml
+      displayName: 'Run ansible'
+      
+- job: Windows
+  pool:
+    vmImage: 'windows-latest'
+
+  steps:
+  - powershell: Install-WindowsFeature -Name Hyper-V-PowerShell
+    displayName: 'Install Hyper-V Powershell module'
+
+  - powershell: |
+      mkdir C:\vagrant\
+      Copy-Item "windows" -Destination "C:\vagrant\" -Recurse
+    displayName: 'Copy Chocolatey files to expected location'
+
+  - powershell: ./windows/installChocolatey.ps1
+    displayName: 'Install Chocolatey'
+
+  - powershell: ./windows/installBoxStarter.bat
+    displayName: 'Install Boxstarter'
+
+  - powershell: |
+      Import-Module C:\ProgramData\Boxstarter\Boxstarter.Chocolatey
+      #Install-BoxStarterPackage -PackageName "c:\vagrant\windows\BoxstarterGist.txt" -DisableReboots
+    displayName: 'Run BoxStarter'
+
+  - powershell: choco install -y c:\vagrant\windows\chocolatey\wsl2\wsl2.nuspec
+    displayName: 'Install wsl2'
+
+  - powershell: |
+      choco pack c:\vagrant\windows\chocolatey\ghidra\ghidra.nuspec -out c:\vagrant\windows\chocolatey\ghidra\
+      choco install -y --source="c:\vagrant\windows\chocolatey\;https://chocolatey.org/api/v2" ghidra --version=9.1.2
+    displayName: 'Install Ghidra'
+
+  - powershell: choco install -y c:\vagrant\windows\chocolatey\metasploit-framework\metasploit-framework.nuspec
+    displayName: 'Install metasploit-framework'

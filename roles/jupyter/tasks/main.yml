@@ -7,5 +7,5 @@
   become: yes
 
 - name: Install jupyter
-  command: 'pip3 install jupyter'
-  become: yes
+  pip:
+    name: jupyter
