@@ -1,17 +1,47 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+jobs:
+- job: Linux
+  pool:
+    vmImage: 'Ubuntu-20.04'
 
-steps:
-  - task: UsePythonVersion@0
-    displayName: 'Use Python 3.7'
-    inputs:
-      versionSpec: '3.7'
+  steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.7'
+      inputs:
+        versionSpec: '3.7'
 
-  - script: pip install ansible-lint
-    displayName: 'Install ansible-lint'
+    - script: pip install ansible ansible-lint
+      displayName: 'Install ansible and ansible-lint'
 
-  - script: ansible-lint -x 301 playbook.yml
-    displayName: 'Run ansible lint'
+    - script: ansible-lint -x 301 playbook.yml
+      displayName: 'Run ansible lint'
+
+    - script: ansible-lint -x 301 playbook.yml
+      displayName: 'Run ansible lint'
+
+    - script: ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 playbook.yml
+      displayName: 'Run ansible'
+      
+- job: Windows
+  pool:
+    vmImage: 'windows-latest'
+
+  steps:
+  - powershell: Install-WindowsFeature -Name Hyper-V-PowerShell
+    displayName: 'Install Hyper-V Powershell module'
+
+  - powershell: |
+      mkdir C:\vagrant\
+      Copy-Item "windows" -Destination "C:\vagrant\windows"
+    displayName: 'Copy Chocolatey files to expected location'
+
+  - powershell: ./windows/installChocolatey.ps1
+    displayName: 'Install Chocolatey '
+
+  - shell: ./windows/installBoxStarter.bat
+    displayName: 'Install Boxstarter'
+
+  - powershell: Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGist.txt -DisableReboots
+    displayName: 'Run BoxStarter'
