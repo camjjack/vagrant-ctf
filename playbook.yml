@@ -44,19 +44,19 @@
       when: git_email is defined
 
   roles:
-    - powerline
-    - regolith
-    - binaryninja
-    - angr
-    - 010editor
-    - vscode
-    - keystone
-    - pwndbg
-    - pwntools
-    - ctfrun
-    - qemu-multiarch
-    - cyberchef
-    - jupyter
+    # - powerline
+    # - regolith
+    # - binaryninja
+    # - angr
+    # - 010editor
+    # - vscode
+    # - keystone
+    # - pwndbg
+    # - pwntools
+    # - ctfrun
+    # - qemu-multiarch
+    # - cyberchef
+    # - jupyter
     - brave
     - lastpass
     - ghidra

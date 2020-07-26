@@ -6,6 +6,13 @@
     state: present
   become: yes
 
+- name: Install apt-transport-https
+  package:
+    name:
+    - apt-transport-https
+    state: present
+  become: yes
+
 - name: Add Brave repository
   apt_repository:
     repo: 'deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com stable main'
