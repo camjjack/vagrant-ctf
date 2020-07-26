@@ -48,5 +48,14 @@ jobs:
 
   - powershell: |
       Import-Module C:\ProgramData\Boxstarter\Boxstarter.Chocolatey
-      Install-BoxStarterPackage -PackageName "c:\vagrant\windows\BoxstarterGist.txt" -DisableReboots
+      #Install-BoxStarterPackage -PackageName "c:\vagrant\windows\BoxstarterGist.txt" -DisableReboots
     displayName: 'Run BoxStarter'
+
+  - powershell: choco install -y c:\vagrant\windows\chocolatey\wsl2\wsl2.nuspec
+    displayName: 'Install wsl2'
+
+  - powershell: choco install -y --source="c:\vagrant\windows\chocolatey\;https://chocolatey.org/api/v2" ghidra --version=9.1.2
+    displayName: 'Install Ghidra'
+
+  - powershell: choco install -y c:\vagrant\windows\chocolatey\metasploit-framework\metasploit-framework.nuspec
+    displayName: 'Install metasploit-framework'
