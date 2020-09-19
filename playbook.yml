@@ -84,6 +84,8 @@
     - name: Install onegadget
       gem:
         name: one_gadget
+        state: latest
+        user_install: no
       become: yes
 
     - name: Install seccomp-tools
@@ -125,6 +127,8 @@
         - gdb
         - gdb-multiarch
         - unzip
+        - python3-gpg
+        - python-is-python3
         state: present
       become: yes
 

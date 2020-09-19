@@ -12,6 +12,11 @@
   pip:
     name: pwntools
 
+- name: Remove old version of six
+  file:
+    path: /home/vagrant/.local/lib/python3.8/site-packages/six.py
+    state: absent
+
 - name: testing pwntools
   command: python3 -c "from pwn import *"
   environment:

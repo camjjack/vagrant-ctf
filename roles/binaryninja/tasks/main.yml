@@ -1,7 +1,7 @@
 ---
 - name: Check for Binary ninja
   stat:
-    path: '{ binary_ninja_zip }}'
+    path: '{{ binary_ninja_zip }}'
   register: binaryninja
 
 - name: Check for Binary ninja personal
