@@ -1,7 +1,7 @@
 $ErrorActionPreference = 'Stop';
 
 $url64       = 'https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi'
-$checksum64  = 'F4833159D00077E160C4B87CA4C4066DA0B20BEC69331CD414A6CB62BD88DE70'
+$checksum64  = '1C8282796C48A04E379AA2BBBD30357C3D32EDFB23FE8B61F84017E34AB51CD2'
 
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName
