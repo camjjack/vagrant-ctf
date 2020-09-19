@@ -13,31 +13,35 @@
   unarchive:
     src: '{{ binary_ninja_personal_zip }}'
     dest: '{{ tool_dir }}'
+    mode: '0755'
     creates: '{{ tool_dir }}/binaryninja/binaryninja'
   when: binaryninja_personal.stat.exists
 
 - name: Get Binary ninja
   unarchive:
     src: '{{ binary_ninja_zip }}'
+    mode: '0755'
     dest: '{{ tool_dir }}'
     creates: '{{ tool_dir }}/binaryninja/binaryninja'
   when: binaryninja.stat.exists
 
 - name: Check for Binary ninja license
   stat:
-    path: '{ binary_ninja_license }}'
+    path: '{{ binary_ninja_license }}'
   register: binaryninja_license
 
 - name: Make binaryninja config dir
   file:
     path: '{{ binary_ninja_config_dir }}'
     state: directory
+    mode: '0755'
   when: binaryninja_license.stat.exists
 
 - name: Install Binary ninja license
   copy:
     dest: '{{ binary_ninja_license_dest }}'
     src: '{{ binary_ninja_license }}'
+    mode: '0644'
   when: binaryninja_license.stat.exists
 
 - name: Add binaryninja to PATH
@@ -66,3 +70,10 @@
     marker: '! {mark} Adding regolith BinaryNinja config'
     block: |
       i3-wm.workspace.03.name:  "3:<span font_desc='Source Code Pro Medium 13'> Binja </span><span foreground='#2aa198'></span>"
+
+- name: Setup BinaryNinja Desktop file
+  template:
+    src: binaryninja.desktop.j2
+    dest: '/usr/share/applications/binaryninja.desktop'
+    mode: '0644'
+  become: yes

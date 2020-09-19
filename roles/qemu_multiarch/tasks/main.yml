@@ -17,6 +17,7 @@
   file:
     path: '/etc/qemu-binfmt'
     state: directory
+    mode: '0644'
   become: yes
 
 - name: link qemu MIPS

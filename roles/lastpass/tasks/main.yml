@@ -3,12 +3,14 @@
   file:
     path: /tmp/lplinux
     state: directory
+    mode: '0755'
 
 - name: Get lastpass
   unarchive:
     src: "https://download.cloud.lastpass.com/linux/lplinux.tar.bz2"
     dest: /tmp/lplinux
     remote_src: yes
+    mode: '0755'
     creates: "/tmp/lplinux/install_lastpass.sh"
 
 - name: Install lastpass

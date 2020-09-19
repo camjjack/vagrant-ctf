@@ -23,6 +23,7 @@
         path: '{{ tool_bin_dir }}'
         state: directory
         recurse: true
+        mode: '0755'
 
     - name: Add tools/bin to PATH
       lineinfile:
@@ -48,13 +49,13 @@
     - regolith
     - binaryninja
     - angr
-    - 010editor
+    - sweetscape_010editor
     - vscode
     - keystone
     - pwndbg
     - pwntools
     - ctfrun
-    - qemu-multiarch
+    - qemu_multiarch
     - jupyter
     - brave
     - lastpass
@@ -64,9 +65,10 @@
 
   tasks:
     - name: get radare2
-      git: # noqa 401
+      git:
         repo: 'https://github.com/radare/radare2'
         dest: '{{ tool_dir }}radare2'
+        version: continuous
 
     - name: setup radare2
       command: ./sys/install.sh
@@ -84,7 +86,6 @@
     - name: Install onegadget
       gem:
         name: one_gadget
-        state: latest
         user_install: no
       become: yes
 

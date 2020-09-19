@@ -15,6 +15,7 @@
   template:
     src: keystone.conf.j2
     dest: /etc/ld.so.conf.d/keystone.conf
+    mode: '0644'
   become: yes
   notify: run ldconfig
 
@@ -22,6 +23,7 @@
   file:
     path: '{{ tool_dir }}keystone/build'
     state: directory
+    mode: '0755'
 
 - name: Make keystone shared library
   command:  ../make-share.sh

@@ -4,6 +4,7 @@
     src: "https://www.sweetscape.com/download/010EditorLinux{{ architecture }}Installer.tar.gz"
     dest: /tmp/
     remote_src: yes
+    mode: '0755'
     creates: "/tmp/010EditorLinux{{ architecture }}Installer"
 
 - name: Install 010Editor

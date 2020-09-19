@@ -19,6 +19,7 @@
   blockinfile:
     path: '{{ home_dir }}.config/regolith/Xresources'
     marker: '! {mark} Adding regolith config'
+    mode: '0644'
     block: |
       i3-wm.mod: Mod1
       i3-wm.alt: Mod4
@@ -29,6 +30,7 @@
 - name: Ensure i3 configuration directory exists
   file:
     path: '{{ regolith_i3_config_dir }}'
+    mode: '0775'
     state: directory
 
 - name: Creating user i3 configuration file.
@@ -53,4 +55,5 @@
   lineinfile:
     path: '{{ home_dir }}.xsession'
     line: i3-gnome-flashback
+    mode: '0644'
     create: yes

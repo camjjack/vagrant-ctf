@@ -16,11 +16,12 @@
   unarchive:
     src: '{{ ghidra_zip }}'
     dest: '{{ tool_dir }}'
-    creates: "{{ tool_dir }}{{ ghidra_dest }}/ghidraRun"
+    mode: '0755'
+    creates: "{{ ghidra_run }}"
     remote_src: yes
 
 - name: Making ghidraRun executable
-  file: dest={{ tool_dir }}{{ ghidra_dest }}/ghidraRun mode=+x
+  file: dest={{ ghidra_run }} mode=+x
 
 - name: Add Ghidra to PATH
   lineinfile:
@@ -34,7 +35,7 @@
     block: |
       for_window [class="Ghidra" title="CodeBrowser"] move container to workspace Ghidra-CodeBrowser
       for_window [class="Ghidra" title="Ghidra"] move container to workspace Ghidra-ToolChest
-      bindsym $mod+g exec {{ tool_dir }}{{ ghidra_dest }}/ghidraRun
+      bindsym $mod+g exec {{ ghidra_run }}
       assign [class="Ghidra"] Ghidra-CodeBrowser
   when: regolith_i3_config is defined
 
@@ -45,3 +46,10 @@
     block: |
       i3-wm.workspace.04.name:  "4:<span font_desc='Source Code Pro Medium 13'> Ghidra-ToolChest </span><span foreground='#2aa198'></span>"
       i3-wm.workspace.05.name:  "5:<span font_desc='Source Code Pro Medium 13'> Ghidra-CodeBrowser </span><span foreground='#2aa198'></span>"
+
+- name: Setup Ghidra Desktop file
+  template:
+    src: ghidra.desktop.j2
+    dest: '/usr/share/applications/ghidra.desktop'
+    mode: '0644'
+  become: yes

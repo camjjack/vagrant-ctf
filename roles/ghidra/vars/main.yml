@@ -2,3 +2,4 @@
 ghidra_version: '9.1.2_PUBLIC'
 ghidra_dest: 'ghidra_{{ ghidra_version }}'
 ghidra_zip: 'https://ghidra-sre.org/ghidra_{{ ghidra_version }}_20200212.zip'
+ghidra_run: '{{ tool_dir }}{{ ghidra_dest }}/ghidraRun'

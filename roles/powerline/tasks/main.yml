@@ -12,12 +12,14 @@
   lineinfile:
     dest: "{{ bash_rc }}"
     line: "source {{ powerline_bindings }}bash/powerline.sh"
+    mode: '0755'
     create: yes
 
 - name: Powerline vimrc
   blockinfile:
     dest: "{{ home_dir }}.vimrc"
     create: yes
+    mode: '0644'
     marker: '" {mark} ANSIBLE MANAGED BLOCK'
     block: |
         python3 from powerline.vim import setup as powerline_setup
@@ -27,6 +29,7 @@
 - name: Powerline tmux.conf
   blockinfile:
     dest: "{{ home_dir }}.tmux.conf"
+    mode: '0644'
     create: yes
     block: |
       'source {{ powerline_bindings }}tmux/powerline.conf'
