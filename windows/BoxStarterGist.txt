@@ -30,9 +30,6 @@ code --install-extension streetsidesoftware.code-spell-checker
 choco install pia
 c:\\vagrant\\windows\\setupPIA.ps1
 
-choco install c:\\vagrant\\windows\\chocolatey\\010editor\\010editor.nuspec
-choco install c:\\vagrant\\windows\\chocolatey\\binaryninja\\binaryninja.nuspec
-choco install c:\\vagrant\\windows\\chocolatey\\metasploit-framework\\metasploit-framework.nuspec
 
 Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles}\Microsoft VS Code\Code.exe"
 Install-ChocolateyPinnedTaskBarItem "${env:localappdata}\BraveSoftware\Brave-Browser\Application\brave.exe"

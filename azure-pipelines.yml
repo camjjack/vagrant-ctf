@@ -48,5 +48,5 @@ jobs:
 
   - powershell: |
       Import-Module C:\ProgramData\Boxstarter\Boxstarter.Chocolatey
-      Install-BoxStarterPackage -PackageName "c:\vagrant\windows\BoxstarterGist.txt" -DisableReboots
+      Install-BoxStarterPackage -PackageName "c:\vagrant\windows\BoxstarterGistCustom.txt" -DisableReboots
     displayName: 'Run BoxStarter'

@@ -47,6 +47,7 @@ Vagrant.configure("2") do |config|
     win.vm.provision "shell", path: "windows/installChocolatey.ps1"
     win.vm.provision "shell", path: "windows/installBoxStarter.bat"
     win.vm.provision "shell", inline: "Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGist.txt -DisableReboots"
+    win.vm.provision "shell", inline: "Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGistCustom.txt -DisableReboots"
 
     win.vm.provider "virtualbox" do |vb|
       vb.cpus = 4
