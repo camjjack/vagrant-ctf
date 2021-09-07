@@ -1,9 +1,4 @@
 ---
-- name: add ubuntu openjdk ppa
-  become: yes
-  apt_repository: repo='ppa:openjdk-r/ppa'
-  when: ansible_distribution == "Ubuntu"
-
 - name: Install openjdk 11
   package:
     name:

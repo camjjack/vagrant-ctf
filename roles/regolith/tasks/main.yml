@@ -1,8 +1,8 @@
 ---
 - name: add regolith ppa
   become: yes
-  apt_repository: repo='ppa:regolith-linux/release'
-  when: ansible_distribution == "Ubuntu"
+  ansible.builtin.apt_repository:
+    repo: 'ppa:regolith-linux/release'
 
 - name: Install regolith
   package:

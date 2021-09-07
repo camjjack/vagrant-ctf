@@ -54,7 +54,6 @@
     - keystone
     - pwndbg
     - pwntools
-    - ctfrun
     - qemu_multiarch
     - jupyter
     - brave
