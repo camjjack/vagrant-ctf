@@ -16,6 +16,7 @@ choco install dropbox
 choco install microsoft-windows-terminal
 choco install docker-desktop
 choco install ghidra
+choco install wsl2
 refreshenv
 code --install-extension vscode-icons-team.vscode-icons
 code --install-extension ms-vscode.cpptools
@@ -29,7 +30,6 @@ code --install-extension streetsidesoftware.code-spell-checker
 choco install pia
 c:\\vagrant\\windows\\setupPIA.ps1
 
-choco install c:\\vagrant\\windows\\chocolatey\\wsl2\\wsl2.nuspec
 choco install c:\\vagrant\\windows\\chocolatey\\010editor\\010editor.nuspec
 choco install c:\\vagrant\\windows\\chocolatey\\binaryninja\\binaryninja.nuspec
 choco install c:\\vagrant\\windows\\chocolatey\\metasploit-framework\\metasploit-framework.nuspec
