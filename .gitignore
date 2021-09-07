@@ -10,3 +10,8 @@ playbook.retry
 .vagrant
 roles/*.*/**/*
 vagrant.log
+.vs/
+*.cer
+*.key
+*.pem
+*.ovpn.*

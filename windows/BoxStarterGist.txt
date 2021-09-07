@@ -15,6 +15,8 @@ choco install sysinternals
 choco install dropbox
 choco install microsoft-windows-terminal
 choco install docker-desktop
+choco install ghidra
+choco install wsl2
 refreshenv
 code --install-extension vscode-icons-team.vscode-icons
 code --install-extension ms-vscode.cpptools
@@ -28,12 +30,6 @@ code --install-extension streetsidesoftware.code-spell-checker
 choco install pia
 c:\\vagrant\\windows\\setupPIA.ps1
 
-choco install c:\\vagrant\\windows\\chocolatey\\wsl2\\wsl2.nuspec
-choco install c:\\vagrant\\windows\\chocolatey\\010editor\\010editor.nuspec
-choco pack c:\\vagrant\\windows\\chocolatey\\ghidra\\ghidra.nuspec -out c:\\vagrant\\windows\\chocolatey\\ghidra\\
-choco install --source="c:\\vagrant\\windows\\chocolatey\\;https://chocolatey.org/api/v2" ghidra --version=9.1.2
-choco install c:\\vagrant\\windows\\chocolatey\\binaryninja\\binaryninja.nuspec
-choco install c:\\vagrant\\windows\\chocolatey\\metasploit-framework\\metasploit-framework.nuspec
 
 Install-ChocolateyPinnedTaskBarItem "${env:ProgramFiles}\Microsoft VS Code\Code.exe"
 Install-ChocolateyPinnedTaskBarItem "${env:localappdata}\BraveSoftware\Brave-Browser\Application\brave.exe"

@@ -2,8 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.define "ctf-ubuntu" do |ubuntu|
-    
+  config.vm.define "ctf-ubuntu" do |ubuntu|    
     ubuntu.vm.box = "ubuntu-20.04"
     ubuntu.vm.hostname = "invalid-ctf"
     ubuntu.ssh.username = 'vagrant'
@@ -16,6 +15,7 @@ Vagrant.configure("2") do |config|
 
     ubuntu.vm.synced_folder "host-share", "/media/host-share"
 
+    ubuntu.vm.network "public_network", bridge: "Default Switch"
     ubuntu.vm.provider "virtualbox" do |vb|
       vb.cpus = 2
       vb.memory = 4096
@@ -30,35 +30,12 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--usb", "on"]     
       vb.gui = true
     end
-    ubuntu.vm.network "public_network", bridge: "Default Switch"
     ubuntu.vm.provider "hyperv" do |hv|
       hv.linked_clone = true
       hv.vm_integration_services = {
         guest_service_interface: true
       }
-      hv.enable_enhanced_session_mode = true
-    end
-  end
-
-  config.vm.define "hackmanite" do |ubuntu|
-    
-    ubuntu.vm.box = "ubuntu-20.04"
-    ubuntu.vm.hostname = "hackmanite-pc"
-    ubuntu.ssh.username = 'vagrant'
-    ubuntu.ssh.password = 'vagrant'
-    ubuntu.ssh.forward_agent = true
-    ubuntu.vm.provision "ansible_local" do |ansible|
-      ansible.playbook = "playbook.yml"
-    end
-
-    ubuntu.vm.synced_folder "host-share", "/media/host-share"
-
-    ubuntu.vm.network "public_network", bridge: "Default Switch"
-    ubuntu.vm.provider "hyperv" do |hv|
-      hv.linked_clone = true
-      hv.vm_integration_services = {
-        guest_service_interface: true
-      }
+      hv.enable_virtualization_extensions = true
       hv.enable_enhanced_session_mode = true
     end
   end
@@ -70,6 +47,7 @@ Vagrant.configure("2") do |config|
     win.vm.provision "shell", path: "windows/installChocolatey.ps1"
     win.vm.provision "shell", path: "windows/installBoxStarter.bat"
     win.vm.provision "shell", inline: "Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGist.txt -DisableReboots"
+    win.vm.provision "shell", inline: "Install-BoxStarterPackage -PackageName c:\\vagrant\\windows\\BoxstarterGistCustom.txt -DisableReboots"
 
     win.vm.provider "virtualbox" do |vb|
       vb.cpus = 4
@@ -96,7 +74,7 @@ Vagrant.configure("2") do |config|
     end
   end
   config.vm.define "ctf-kali" do |kali|
-    kali.vm.box = "unisec/kali-linux-2017.1-amd64"
+    kali.vm.box = "kalilinux/rolling"
     kali.vm.hostname = "invalid-ctf-kali"
     kali.vm.provision "ansible_local" do |ansible|
       ansible.playbook = "kali-playbook.yml"

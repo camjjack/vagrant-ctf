@@ -1,0 +1,7 @@
+chocolatey feature enable -n=allowGlobalConfirmation
+
+choco install c:\\vagrant\\windows\\chocolatey\\010editor\\010editor.nuspec
+choco install c:\\vagrant\\windows\\chocolatey\\binaryninja\\binaryninja.nuspec
+choco install c:\\vagrant\\windows\\chocolatey\\metasploit-framework\\metasploit-framework.nuspec
+
+chocolatey feature disable -n=allowGlobalConfirmation
