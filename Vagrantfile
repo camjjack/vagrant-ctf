@@ -1,9 +1,16 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+require 'socket'
+host_address = IPAddr.new(Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address)
+range = host_address.mask(20)
+dhcp_start = range | "0.0.1.10"
+dhcp_end = dhcp_start | "0.0.0.100"
+gateway = range | "0.0.0.1"
 
 Vagrant.configure("2") do |config|
+  
   config.vm.define "ctf-ubuntu" do |ubuntu|    
-    ubuntu.vm.box = "ubuntu-20.04"
+    ubuntu.vm.box = "ubuntu-enhanced"
     ubuntu.vm.hostname = "invalid-ctf"
     ubuntu.ssh.username = 'vagrant'
     ubuntu.ssh.password = 'vagrant'
@@ -41,7 +48,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "ctf-win" do |win|
-    win.vm.box = "windows-10"
+    win.vm.box = "windows"
     win.vm.hostname = "invalid-ctf-win"
     win.vm.communicator = "winrm"
     win.vm.provision "shell", path: "windows/installChocolatey.ps1"
@@ -99,5 +106,57 @@ Vagrant.configure("2") do |config|
       hv.enable_virtualization_extensions = true
       hv.linked_clone = true
     end
+  end
+  config.vm.define "arch" do |arch|    
+    arch.vm.box = "arch-desktop"
+    arch.vm.hostname = "arch-dev"
+    arch.ssh.username = 'vagrant'
+    arch.ssh.password = 'vagrant'
+    arch.ssh.forward_agent = true
+    arch.vm.provision "shell" do |update|
+      update.inline = "pacman -Syu --noconfirm"
+      update.reboot = true
+    end
+    arch.vm.provision "ansible_local" do |ansible|
+      ansible.install_mode = "pip3"
+      ansible.playbook = "playbook.yml"
+      ansible.galaxy_role_file = "requirements.yml"
+    end
+
+    arch.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "packer-templates/"]
+
+    arch.vm.network "public_network", bridge: "WSL"
+    arch.vm.provider "hyperv" do |hv|
+      hv.vm_integration_services = {
+        guest_service_interface: true
+      }
+      hv.enable_virtualization_extensions = true
+      hv.enable_enhanced_session_mode = true
+      # dynamic memory causes systemd-journal to use 99% cpu
+      # on the fix: https://github.com/torvalds/linux/commit/96d9d1fa5cd505078534113308ced0aa56d8da58#diff-69ad06175a1bd732f670c8a14108b9bc7aaee781daae61c4d65c6146933a3de4
+      # lands in a downstream kernel we can remove this
+      hv.memory = 4096
+    end
+  end
+  config.vm.define "vyos" do |vyos|    
+    vyos.vm.box = "vyos"
+    vyos.vm.hostname = "vyos"
+    vyos.ssh.username = 'vyos'
+    vyos.ssh.password = 'vagrant'
+    vyos.ssh.forward_agent = true
+    vyos.vm.provision "shell" do |s|
+      s.path = "scripts/vyos-dhcp.sh"
+      s.env   = {:RANGE => range.to_s() + "/20",
+                 :DEFAULT_ROUTER => gateway.to_s(),
+                 :DHCP_START => dhcp_start.to_s(),
+                 :DHCP_END => dhcp_end.to_s(),
+                 :NAMESERVER => gateway.to_s(),
+                 :DOMAIN_NAME => "vyos.net"
+                }
+    end
+
+    vyos.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "packer-templates/"]
+
+    vyos.vm.network "public_network", bridge: "WSL"
   end
 end
