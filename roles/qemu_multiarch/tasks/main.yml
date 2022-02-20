@@ -1,7 +1,7 @@
 ---
 # QEMU with MIPS/ARM - http://reverseengineering.stackexchange.com/questions/8829/cross-debugging-for-mips-elf-with-qemu-toolchain
 
-- name: Install keystone dependencies
+- name: Install qemu architectures
   package:
     name:
     - qemu
@@ -12,6 +12,12 @@
     - libc6-mipsel-cross
     state: present
   become: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install qemu architectures
+  shell: |
+    pikaur -Sy --noconfirm qemu-user-static-bin binfmt-qemu-static
+  when: ansible_os_family == "Archlinux"
 
 - name: Make qemu binfmt dir
   file:
@@ -19,6 +25,7 @@
     state: directory
     mode: '0644'
   become: yes
+  when: ansible_os_family == "Debian"
 
 - name: link qemu MIPS
   file:
@@ -26,6 +33,7 @@
     state: link
     src: /usr/mipsel-linux-gnu
   become: yes
+  when: ansible_os_family == "Debian"
 
 - name: link qemu ARM
   file:
@@ -33,3 +41,4 @@
     state: link
     src: /usr/arm-linux-gnueabihf
   become: yes
+  when: ansible_os_family == "Debian"

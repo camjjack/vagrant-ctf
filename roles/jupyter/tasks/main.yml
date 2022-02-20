@@ -1,11 +1,4 @@
 ---
-- name: Install jupyter dependencies
-  package:
-    name:
-    - python3-dev
-    state: present
-  become: yes
-
 - name: Install jupyter
   pip:
     name: jupyter

@@ -1,21 +1,15 @@
 ---
+- name: Binary ninja dependencies
+  package:
+    name:
+      - unzip
+    state: present
+  become: yes
+
 - name: Check for Binary ninja
   stat:
     path: '{{ binary_ninja_zip }}'
   register: binaryninja
-
-- name: Check for Binary ninja personal
-  stat:
-    path: '{ binary_ninja_personal_zip }}'
-  register: binaryninja_personal
-
-- name: Get Binary ninja personal
-  unarchive:
-    src: '{{ binary_ninja_personal_zip }}'
-    dest: '{{ tool_dir }}'
-    mode: '0755'
-    creates: '{{ tool_dir }}/binaryninja/binaryninja'
-  when: binaryninja_personal.stat.exists
 
 - name: Get Binary ninja
   unarchive:
@@ -49,27 +43,13 @@
     path: '{{ bash_rc }}'
     line: 'PATH=$PATH:{{ tool_dir }}/binaryninja/'
 
-- name: change mod+n entry to mod+u.
-  replace:
-    path: '{{ regolith_i3_config }}'
-    regexp: '^bindsym\ \$mod\+n\ exec\ \$i3-wm.program.notification_ui'
-    replace: 'bindsym $mod+u exec $i3-wm.program.notification_ui'
-
-- name: Setup BinaryNinja regolith configuration.
+- name: Setup BinaryNinja i3 configuration.
   blockinfile:
-    path: '{{ regolith_i3_config }}'
+    path: '{{ i3_config_location }}'
     marker: '# {mark} Adding BinaryNinja config'
     block: |
-      assign [class="Binary Ninja"] Binja
+      assign [class="Binary Ninja"] $ws3
       bindsym $mod+n exec {{ tool_dir }}/binaryninja/binaryninja
-  when: regolith_i3_config is defined
-
-- name: Setup BinaryNinja regolith window configuration.
-  blockinfile:
-    path: '{{ home_dir }}.config/regolith/Xresources'
-    marker: '! {mark} Adding regolith BinaryNinja config'
-    block: |
-      i3-wm.workspace.03.name:  "3:<span font_desc='Source Code Pro Medium 13'> Binja </span><span foreground='#2aa198'></span>"
 
 - name: Setup BinaryNinja Desktop file
   template:

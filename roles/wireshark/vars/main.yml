@@ -1,0 +1,4 @@
+---
+packages:
+  Debian: 'wireshark'
+  Archlinux: 'wireshark-qt'

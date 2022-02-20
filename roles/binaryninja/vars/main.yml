@@ -1,6 +1,5 @@
 ---
 binary_ninja_zip: '{{ vagrant_share_dir }}BinaryNinja.zip'
-binary_ninja_personal_zip: '{{ vagrant_share_dir }}BinaryNinja-personal.zip'
 binary_ninja_license: '{{ vagrant_share_dir }}license.txt'
 binary_ninja_config_dir: '{{ home_dir }}.binaryninja/'
 binary_ninja_license_dest: '{{ binary_ninja_config_dir }}license.dat'

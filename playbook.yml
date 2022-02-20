@@ -5,17 +5,37 @@
   - [ "group_vars/private.yml", "group_vars/blank.yml" ]
 
   pre_tasks:
-    - name: update
-      apt:
-        upgrade: dist
-      become: yes
+    # - name: update
+    #   apt:
+    #     upgrade: dist
+    #   become: yes
+    #   when: ansible_os_family == 'Debian'
+
+    # - name: update
+    #   pacman:
+    #     upgrade: yes
+    #   become: yes
+    #   when: ansible_os_family == 'Archlinux'
+
+    # - name: Flag a reboot if required for Arch
+    #   shell: s1=$(pacman -Q linux | sed 's/linux //');s2=$(uname -r | sed 's/-ARCH//'); if [ "$s1" != "$s2" ]; then touch /var/run/reboot-required; fi
+    #   become: yes
+    #   when: ansible_os_family == 'Archlinux'
+
+    # - name: Check if a reboot is needed
+    #   register: reboot_required
+    #   stat: path=/var/run/reboot-required get_md5=no
+
+    # - name: Reboot the machine
+    #   reboot:
+    #   when: reboot_required
 
     - name: Ansible requirements
       package:
         name:
         - git
-        - python3
-        - python3-pip
+        - python
+        - python-pip
       become: yes
 
     - name: Make tools and bin dir
@@ -45,22 +65,26 @@
       when: git_email is defined
 
   roles:
-    - powerline
-    - regolith
-    - binaryninja
+    - i3
     - angr
-    - sweetscape_010editor
-    - vscode
+    - binaryninja
+    - brave
+    - docker
+    - ghidra
+    #- ida
+    - jupyter
+    - k3s
     - keystone
+    - lastpass
+    - multilib
+    - oh_my_zsh
     - pwndbg
+    - pwninit
     - pwntools
     - qemu_multiarch
-    - jupyter
-    - brave
-    - lastpass
-    - ghidra
-    - docker
-    - k3s
+    - sweetscape_010editor
+    - vscode
+    - wireshark
 
   tasks:
     - name: get radare2
@@ -68,18 +92,19 @@
         repo: 'https://github.com/radare/radare2'
         dest: '{{ tool_dir }}radare2'
         version: continuous
+      register: radare2
 
     - name: setup radare2
       command: ./sys/install.sh
       args:
         chdir: '{{ tool_dir }}radare2'
         creates: '/usr/bin/radare2'
+      when: radare2.changed
 
     - name: Install Ruby
       package:
         name:
         - ruby
-        - ruby-dev
       become: yes
 
     - name: Install onegadget
@@ -93,42 +118,12 @@
         name: seccomp-tools
       become: yes
 
-    # multilib
-    - name: Check if i386 is enabled
-      shell: |
-        set -o pipefail
-        dpkg --print-foreign-architectures | grep i386
-      args:
-        executable: /bin/bash
-      register: result_i386_check
-      changed_when: result_i386_check.rc == 1
-      failed_when: result_i386_check.rc > 1
-
-    - name: Enable i386 architecture
-      command: dpkg --add-architecture i386
-      when: result_i386_check.rc == 1
-      become: yes
-
-    - name: multilib
-      apt:
-        name:
-        - libc6:i386
-        - libncurses5:i386
-        - libstdc++6:i386
-        update_cache: yes
-        state: present
-      become: yes
-
     - name: Installing default tools
       package:
         name:
         - tmux
         - vim
         - gdb
-        - gdb-multiarch
-        - unzip
-        - python3-gpg
-        - python-is-python3
         state: present
       become: yes
 
@@ -136,34 +131,43 @@
       apt:
         deb: https://linux.dropbox.com/packages/ubuntu/dropbox_2020.03.04_amd64.deb
       become: yes
-      notify: Install dropbox service
+      when: ansible_os_family == 'Debian'
 
-    - name: Install wireshark
+    - name: Install dropbox
+      shell: |
+        pikaur -Syu --noconfirm dropbox --mflags=--skippgpcheck
+      when: ansible_os_family == 'Archlinux'
+
+
+    - name: Install apktool
       package:
         name:
-          - wireshark
-        state: present
-      become: yes
-
-    - name: Install android RE tools
-      package:
-        name:
-          - androguard
           - apktool
         state: present
       become: yes
+      when: ansible_os_family == 'Debian'
+      
+    - name: Install apktool
+      shell: pikaur -Syu --noconfirm android-apktool
+      when: ansible_os_family == 'Archlinux'
+      
+    - name: Install androguard
+      pip:
+        name: androguard
 
     - name: Cyberchef
-      docker_container:
+      community.docker.docker_container:
         name: cyberchef
         image: mpepping/cyberchef
         ports:
         - "8000:8000"
       become: yes
+      
+    - name: get frida
+      pip:
+        name: frida-tools
 
-# todo: git clone my config repo.
-
-  handlers:
-    - name: Install dropbox service
-      command: dropbox start -i
-      become: yes
+    - name: Run dropbox on login
+      lineinfile:
+        path: '{{ home_dir }}.xinitrc'
+        line: /usr/bin/dropbox &

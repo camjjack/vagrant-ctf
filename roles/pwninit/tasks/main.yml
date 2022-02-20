@@ -1,0 +1,32 @@
+---
+- name: Install pwninit dependencies
+  package:
+    name:
+      "{{ packages[ansible_os_family] }}"
+    state: present
+  become: yes
+
+- name: get pwninit
+  community.general.cargo:
+    name: pwninit
+    state: latest
+
+- name: Add cargo bin to PATH.
+  blockinfile:
+    path: '{{ zshrc }}'
+    marker: '# {mark} Adding cargo bin to PATH'
+    block: |
+      path+=('{{ home_dir }}.cargo/bin')
+
+- name: Custom pwninit template
+  get_url:
+    url: '{{ pwninit_template_gist }}'
+    dest: '{{ pwninit_template_location }}'
+
+- name: Add pwninit alias for custom template.
+  blockinfile:
+    path: '{{ zshrc }}'
+    marker: '# {mark} Creating alias for pwninit'
+    block: |
+      alias pwninit='pwninit --template-path {{ pwninit_template_location }} --template-bin-name e'
+

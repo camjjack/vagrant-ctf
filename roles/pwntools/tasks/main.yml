@@ -2,23 +2,18 @@
 - name: Install pwntools dependencies
   package:
     name:
-    - python3-dev
-    - libssl-dev
-    - libffi-dev
+      "{{ packages[ansible_os_family] }}"
     state: present
   become: yes
 
 - name: get pwntools
   pip:
     name: pwntools
-
-- name: Remove old version of six
-  file:
-    path: /home/vagrant/.local/lib/python3.8/site-packages/six.py
-    state: absent
+  register: pwntools
 
 - name: testing pwntools
   command: python3 -c "from pwn import *"
   environment:
     TERM: "linux"
     TERMINFO: "/etc/terminfo"
+  when: pwntools.changed

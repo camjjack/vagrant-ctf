@@ -1,0 +1,7 @@
+---
+- name: get wireshark
+  package:
+    name:
+      - "{{ packages[ansible_os_family] }}"
+    state: present
+  become: yes

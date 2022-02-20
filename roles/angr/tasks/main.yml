@@ -2,15 +2,14 @@
 - name: Install angr dependencies
   package:
     name:
-    - python3-dev
-    - build-essential
-    - libffi-dev
-    - python3-venv
-    - python3-pkg-resources
-    - virtualenvwrapper
+      "{{ packages[ansible_os_family] }}"
     state: present
   become: yes
 
+- name: Create the angr virtualenv
+  command:
+    cmd: python3 -m venv {{ home_dir }}/angrenv
+    creates: "{{ home_dir }}/angrenv"
+
 - name: Install angr
-  pip:
-    name: angr
+  shell: "{{ home_dir }}/angrenv/bin/pip3 install angr"

@@ -2,7 +2,9 @@
 - name: Install i3
   package:
     name:
-    - i3
+    - i3-gaps
+    - i3status-rust
+    - rofi
     state: present
   become: yes
 
@@ -12,10 +14,21 @@
     state: directory
     recurse: true
 
+- name: Ensure i3status-rs config dir is present
+  file:
+    path: '{{ i3status_rs_config_dir }}'
+    state: directory
+    recurse: true
+
 - name: Configure i3
   template:
     src: config.j2
     dest: '{{ i3_config_location }}'
+
+- name: Configure i3status-rs
+  template:
+    src: i3statusconfig.j2
+    dest: '{{ i3status_rs_config_location }}'
 
 - name: Check for xrdp config
   stat:
@@ -29,9 +42,33 @@
     replace: 'startwm'
   become: yes
   when: xrdp_sesman.stat.exists
+  
+  # see https://github.com/alacritty/alacritty/issues/3500
+- name: Set maxbigreqsize as Xorg param 
+  replace:
+    path: /etc/xrdp/sesman.ini
+    regexp: 'param=-noreset'
+    replace: |
+      param=-maxbigreqsize
+      param=127
+      param=-noreset
+  become: yes
+  when: xrdp_sesman.stat.exists
+
+- name: Ensure pulseaudio is running
+  lineinfile:
+    path: '{{ home_dir }}.xinitrc'
+    line: pulseaudio --start
+    create: yes
 
 - name: Setup i3 as default window manager for sesman
   lineinfile:
-    path: '{{ home_dir }}.xsession'
-    line: i3
+    path: '{{ home_dir }}.xinitrc'
+    line: exec i3
     create: yes
+    
+- name: Restart xrdp service.
+  service:
+    name: xrdp
+    state: restarted
+  become: yes

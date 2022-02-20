@@ -4,3 +4,9 @@
     repo: 'https://github.com/pwndbg/pwndbg'
     dest: '{{ tool_dir }}pwndbg'
   notify: setup pwndbg
+  when: ansible_os_family == "Debian"
+
+- name: Install pwndbg
+  shell: |
+    pikaur -Syu --noconfirm pwndbg
+  when: ansible_os_family == "Archlinux"

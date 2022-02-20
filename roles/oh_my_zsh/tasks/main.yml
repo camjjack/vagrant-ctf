@@ -1,0 +1,14 @@
+---
+- name: Setup oh-my-zsh configuration.
+  blockinfile:
+    path: '{{ zsh_rc }}'
+    marker: '# {mark} Adding oh-my-zsh config'
+    block: |
+      ZSH_THEME=robbyrussell
+      autoload -Uz compinit
+      compinit
+      _comp_options+=(globdots)
+      promptinit
+      plugins=(
+      git
+      )

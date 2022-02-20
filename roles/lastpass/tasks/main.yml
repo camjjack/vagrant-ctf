@@ -1,4 +1,12 @@
 ---
+- name: Install lastpass dependencies
+  package:
+    name:
+    - wget
+    - unzip
+    state: present
+  become: yes
+
 - name: Setup tmp dir for lastpass installer
   file:
     path: /tmp/lplinux

@@ -8,3 +8,11 @@ docker_users: [vagrant]
 
 # Docker Compose options.
 docker_compose_path: /usr/local/bin/docker-compose
+packages:
+  Debian:
+    - 'docker-ce'
+    - 'python3-docker'
+  Archlinux:
+    - 'docker'
+    - 'python-docker'
+

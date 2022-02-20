@@ -1,0 +1,8 @@
+---
+packages:
+  Debian:
+    - 'python3-dev'
+    - 'libssl-dev'
+    - 'libffi-dev'
+  Archlinux:
+    - 'libffi'

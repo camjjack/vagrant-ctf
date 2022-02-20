@@ -1,0 +1,13 @@
+---
+packages:
+  Debian:
+    - python3-dev
+    - build-essential
+    - libffi-dev
+    - python3-venv
+    - python3-pkg-resources
+    - virtualenvwrapper
+  Archlinux:
+    - libffi
+    - python-virtualenv
+    - python-virtualenvwrapper

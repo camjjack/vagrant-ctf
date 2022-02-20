@@ -1,0 +1,16 @@
+---
+packages:
+  Debian:
+    - 'libssl-dev'
+    - 'liblzma-dev'
+    - 'pkg-config'
+    - 'cargo'
+    - 'patchelf'
+  Archlinux:
+    - 'pkgconf'
+    - 'openssl'
+    - 'lzlib'
+    - 'rust'
+    - 'patchelf'
+pwninit_template_gist: https://gist.githubusercontent.com/camjjack/249f9d9e80eb91b7fe1a836bbe8d49cd/raw/816c9bc6ef0d215d2ca29401471f3bcc645c9964/solve.py
+pwninit_template_location: "{{ home_dir }}.config/pwninit-template.py"

@@ -6,6 +6,7 @@
       - docker-engine
     state: absent
   become: yes
+  when: ansible_os_family == "Debian"
 
 - name: Ensure docker dependencies are installed.
   package:
@@ -17,6 +18,7 @@
       - software-properties-common
     state: present
   become: yes
+  when: ansible_os_family == "Debian"
 
 - name: Add docker apt key.
   apt_key:
@@ -25,27 +27,21 @@
     state: present
   register: add_repository_key
   become: yes
+  when: ansible_os_family == "Debian"
 
-- name: Add Docker repository.
+- name: Add Docker repository
   apt_repository:
     repo: "{{ docker_apt_repository }}"
     state: present
     update_cache: true
   become: yes
+  when: ansible_os_family == "Debian"
 
-- name: Install Docker.
+- name: Install Docker
   package:
     name:
-      - docker-ce
-      - python3-docker
+      "{{ packages[ansible_os_family] }}"
     state: present
-  become: yes
-
-- name: Ensure Docker is started and enabled at boot.
-  service:
-    name: docker
-    state: "started"
-    enabled: yes
   become: yes
 
 - name: Ensure docker users are added to the docker group.
@@ -56,17 +52,16 @@
   with_items: "{{ docker_users }}"
   become: yes
 
+- name: Ensure Docker is started and enabled at boot.
+  service:
+    name: docker
+    state: "started"
+    enabled: yes
+  become: yes
+
 - name: Install Docker Compose (if configured).
   get_url:
     url: https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
     dest: "{{ docker_compose_path }}"
     mode: 0755
   become: yes
-
-- name: Setup Docker regolith configuration.
-  blockinfile:
-    path: '{{ regolith_i3_config }}'
-    marker: '# {mark} Adding Docker config'
-    block: |
-      exec --no-startup-id dropbox start
-  when: regolith_i3_config is defined

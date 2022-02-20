@@ -5,8 +5,13 @@ home_dir: '/home/{{ vagrant_user }}/'
 tool_dir: '{{ home_dir }}tools/'
 tool_bin_dir: '{{ tool_dir }}bin/'
 bash_rc: '{{ home_dir }}.bashrc'
+zsh_rc: '{{ home_dir }}.zshrc'
 
 #vagrant host hare directory
 # relative to VagrantFile
 local_share_dir: host-share
-vagrant_share_dir: '/media/{{ local_share_dir }}/'
+vagrant_share_dir: '/vagrant/{{ local_share_dir }}/'
+
+i3_config_dir: '{{ home_dir }}.config/i3/'
+i3_config_location: '{{ i3_config_dir }}config'
+zshrc: '{{ home_dir }}.zshrc'

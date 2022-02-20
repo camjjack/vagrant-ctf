@@ -1,3 +1,3 @@
 ---
-i3_config_dir: '{{ home_dir }}.config/i3/'
-i3_config_location: '{{ i3_config_dir }}config'
+i3status_rs_config_dir: '{{ home_dir }}.config/i3status-rs/'
+i3status_rs_config_location: '{{ i3status_rs_config_dir }}config.toml'
