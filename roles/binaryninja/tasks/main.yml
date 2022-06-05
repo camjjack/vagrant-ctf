@@ -38,10 +38,15 @@
     mode: '0644'
   when: binaryninja_license.stat.exists
 
-- name: Add binaryninja to PATH
-  lineinfile:
-    path: '{{ bash_rc }}'
-    line: 'PATH=$PATH:{{ tool_dir }}/binaryninja/'
+- name: Setup Binary ninja
+  command: ./linux-setup.sh
+  args:
+    chdir: '{{ tool_dir }}/binaryninja/scripts'
+
+- name: Install Binary ninja API
+  command: ./install_api.py
+  args:
+    chdir: '{{ tool_dir }}/binaryninja/scripts'
 
 - name: Setup BinaryNinja i3 configuration.
   blockinfile:
@@ -50,10 +55,3 @@
     block: |
       assign [class="Binary Ninja"] $ws3
       bindsym $mod+n exec {{ tool_dir }}/binaryninja/binaryninja
-
-- name: Setup BinaryNinja Desktop file
-  template:
-    src: binaryninja.desktop.j2
-    dest: '/usr/share/applications/binaryninja.desktop'
-    mode: '0644'
-  become: yes
