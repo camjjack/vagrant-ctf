@@ -11,3 +11,14 @@
   - hashicorp.terraform
   - streetsidesoftware.code-spell-checker
   - dendron.dendron
+  - dendron.dendron-markdown-shortcuts
+  - dendron.dendron-snippet-maker
+  - golang.go
+  - hashicorp.terraform
+  - zainchen.json
+  - ms-toolsai.jupyter
+  - ms-toolsai.jupyter-keymap
+  - ms-toolsai.jupyter-renderers
+  - ms-kubernetes-tools.vscode-kubernetes-tools
+  - shd101wyy.markdown-preview-enhanced
+  - redhat.vscode-yaml
