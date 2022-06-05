@@ -124,6 +124,7 @@
         - tmux
         - vim
         - gdb
+        - 7zip
         state: present
       become: yes
 
@@ -171,3 +172,10 @@
       lineinfile:
         path: '{{ home_dir }}.xinitrc'
         line: /usr/bin/dropbox &
+
+    - name: Installing Thunar
+      package:
+        name:
+        - thunar
+        state: present
+      become: yes
